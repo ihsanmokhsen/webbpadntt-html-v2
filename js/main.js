@@ -21,15 +21,15 @@ const FALLBACK_DATA = {
     {
       judul: 'Pembebasan Denda PKB dalam Rangka HUT Provinsi NTT ke-66',
       kategori: 'Pengumuman',
-      tanggal: '2026-10-15',
+      tanggal: '2026-05-15',
       ikon: 'ti-news',
       tema: 'blue',
       ringkasan: 'Informasi pembebasan denda Pajak Kendaraan Bermotor bagi wajib pajak di Provinsi NTT.'
     },
     {
-      judul: 'BAPENDA NTT Raih Penghargaan Terbaik Pengelolaan Aset Daerah 2026',
+      judul: 'BPAD NTT Raih Penghargaan Terbaik Pengelolaan Aset Daerah 2026',
       kategori: 'Prestasi',
-      tanggal: '2026-10-08',
+      tanggal: '2026-05-08',
       ikon: 'ti-award',
       tema: 'green',
       ringkasan: 'BPAD NTT memperoleh apresiasi atas peningkatan tata kelola aset daerah.'
@@ -37,17 +37,17 @@ const FALLBACK_DATA = {
     {
       judul: 'Peluncuran Sistem e-Samsat Generasi Baru untuk Kemudahan Wajib Pajak',
       kategori: 'Inovasi',
-      tanggal: '2026-10-01',
+      tanggal: '2026-05-01',
       ikon: 'ti-device-laptop',
       tema: 'amber',
       ringkasan: 'Layanan digital e-Samsat diperbarui untuk mempermudah pembayaran pajak kendaraan.'
     }
   ],
   pengumuman: [
-    { judul: 'Jadwal Pemeliharaan Sistem e-Samsat — 20 Oktober 2026', tanggal: '2026-10-18' },
-    { judul: 'Perubahan Jam Pelayanan UPTD Samsat Kupang Selama Masa Libur Nasional', tanggal: '2026-10-12' },
-    { judul: 'Rekrutmen Tenaga Pendamping Pajak Daerah Kabupaten/Kota Tahun 2026', tanggal: '2026-10-05' },
-    { judul: 'Sosialisasi Peraturan Daerah tentang Pajak Daerah bagi Pelaku Usaha di Kupang', tanggal: '2026-09-28' }
+    { judul: 'Jadwal Pemeliharaan Sistem e-Samsat — 20 Mei 2026', tanggal: '2026-05-20' },
+    { judul: 'Perubahan Jam Pelayanan UPTD Samsat Kupang Selama Masa Libur Nasional', tanggal: '2026-05-18' },
+    { judul: 'Rekrutmen Tenaga Pendamping Pajak Daerah Kabupaten/Kota Tahun 2026', tanggal: '2026-05-16' },
+    { judul: 'Sosialisasi Peraturan Daerah tentang Pajak Daerah bagi Pelaku Usaha di Kupang', tanggal: '2026-05-14' }
   ],
   ppid: [
     {
@@ -60,12 +60,12 @@ const FALLBACK_DATA = {
       judul: 'Informasi Setiap Saat',
       jenis: 'Kategori PPID',
       deskripsi: 'Daftar informasi publik, regulasi, dokumen layanan, serta data yang dapat dimohonkan masyarakat.',
-      link: ''
+      link: 'https://drive.google.com/drive/folders/137bfjogqiqkKYvAj8lG1fyhbD0igAfyv?usp=drive_link'
     },
     {
       judul: 'Permohonan Informasi',
       jenis: 'Layanan PPID',
-      deskripsi: 'Layanan permintaan informasi publik melalui kontak resmi atau datang langsung ke kantor BAPENDA Provinsi NTT.',
+      deskripsi: 'Layanan permintaan informasi publik melalui kontak resmi atau datang langsung ke kantor BPAD Provinsi NTT.',
       link: 'https://forms.gle/sLJVuwdGrZnQTJ3N7'
     }
   ]
@@ -282,7 +282,7 @@ const UPTD_OFFICIALS = {
 // =========================================================
 // Input dari JSON memakai format YYYY-MM-DD.
 // Fungsi ini mengubahnya menjadi format Indonesia,
-// contoh: 2026-10-18 -> 18 Oktober 2026.
+// contoh: 2026-05-18 -> 18 Mei 2026.
 function formatTanggal(value) {
   if (!value) return '';
 
@@ -675,6 +675,102 @@ function toggleAppMenu(event) {
   document.getElementById('appDropdown').classList.toggle('open');
 }
 
+// =========================================================
+// 16. Tanggal update PAD hari ini
+// =========================================================
+// Komponen PAD memakai placeholder sampai tersedia sumber data resmi,
+// tetapi tanggal update dibuat otomatis agar selalu sesuai hari akses.
+function updatePadTodayDate() {
+  const dateElement = document.getElementById('padUpdateDate');
+  if (!dateElement) return;
+
+  const today = new Intl.DateTimeFormat('id-ID', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  }).format(new Date());
+
+  dateElement.textContent = `Update ${today}`;
+}
+
+// =========================================================
+// 17. Animasi halus saat scroll
+// =========================================================
+// Elemen penting diberi class scroll-reveal secara otomatis.
+// IntersectionObserver membuat animasi baru berjalan saat elemen
+// mulai masuk viewport, sehingga halaman terasa hidup tapi tetap ringan.
+function initScrollAnimations() {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealSelectors = [
+    '.stats-strip .stat-item',
+    '.pad-today-head',
+    '.pad-today-card',
+    '.pad-today-note',
+    '.quick-link',
+    '.section-hdr',
+    '.visi-card',
+    '.layanan-card',
+    '.detail-card',
+    '.berita-card',
+    '.pgm-card',
+    '.info-block',
+    '.map-block',
+    '.footer-col',
+    '.nw-topbar',
+    '.nw-breaking',
+    '.nw-slider',
+    '.nw-card',
+    '.nw-side-card'
+  ];
+
+  if (prefersReducedMotion) {
+    document.querySelectorAll(revealSelectors.join(',')).forEach((element) => {
+      element.classList.add('revealed');
+    });
+    return;
+  }
+
+  const observedElements = new WeakSet();
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+
+      entry.target.classList.add('revealed');
+      observer.unobserve(entry.target);
+    });
+  }, {
+    threshold: 0.14,
+    rootMargin: '0px 0px -60px 0px'
+  });
+
+  const prepareRevealElements = () => {
+    document.querySelectorAll(revealSelectors.join(',')).forEach((element, index) => {
+      if (observedElements.has(element) || element.closest('.chatbot-widget')) return;
+
+      const stagger = Math.min(index % 6, 5) * 70;
+      element.style.setProperty('--reveal-delay', `${stagger}ms`);
+      element.classList.add('scroll-reveal');
+
+      if (element.matches('.section-hdr, .nw-topbar')) element.classList.add('reveal-left');
+      if (element.matches('.layanan-card, .berita-card, .nw-card, .detail-card')) element.classList.add('reveal-scale');
+
+      observedElements.add(element);
+      observer.observe(element);
+    });
+  };
+
+  prepareRevealElements();
+
+  const mutationObserver = new MutationObserver(() => {
+    window.requestAnimationFrame(prepareRevealElements);
+  });
+
+  mutationObserver.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+}
+
 // Tutup menu mobile setelah salah satu link diklik.
 document.querySelectorAll('.mobile-menu a').forEach((link) => {
   link.addEventListener('click', () => {
@@ -695,5 +791,7 @@ document.querySelectorAll('#appMenu a').forEach((link) => {
 });
 
 // Mulai isi konten dinamis ketika script dimuat.
+updatePadTodayDate();
 hydrateContent();
 initUptdPopup();
+initScrollAnimations();

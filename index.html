@@ -8,13 +8,14 @@
   -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BAPENDA – Badan Pendapatan dan Aset Daerah Provinsi NTT</title>
+  <title>BPAD – Badan Pendapatan dan Aset Daerah Provinsi NTT</title>
   <link rel="icon" type="image/png" href="assets/logo.png">
   <link rel="apple-touch-icon" href="assets/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/news-widget.css">
 </head>
 <body>
 
@@ -86,6 +87,27 @@
 </nav>
 
 <!--
+  DATA PAD HARI INI
+  Komponen ringkas sebelum hero. Nilai realisasi masih placeholder
+  agar aman sampai tersedia sumber data resmi/API/database.
+-->
+<section class="pad-today" aria-label="Data Pendapatan Asli Daerah hari ini">
+  <div class="pad-today-inner">
+    <div class="pad-today-head">
+      <span class="pad-live-dot"></span>
+      <strong>PAD Hari Ini</strong>
+    </div>
+    <div class="pad-today-line">
+      <span>Realisasi: <strong>Rp --</strong></span>
+      <span>Target 2026: <strong>Rp 2,8T</strong></span>
+      <span>Realisasi: <strong>--%</strong></span>
+      <span id="padUpdateDate">Update hari ini</span>
+      <span class="pad-status">Menunggu data resmi</span>
+    </div>
+  </div>
+</section>
+
+<!--
   HERO
   Bagian pembuka website. Background gambar diatur dari CSS:
   css/style.css pada class .hero.
@@ -101,6 +123,22 @@
     <div class="hero-btns">
       <a href="#layanan" class="btn-gold"><i class="ti ti-list-check"></i> Lihat Layanan</a>
       <a href="#profil" class="btn-ghost"><i class="ti ti-info-circle"></i> Tentang Kami</a>
+    </div>
+  </div>
+</section>
+
+<!--
+  PORTAL BERITA MODERN
+  Komponen modular setelah hero. Isi widget dibuat oleh
+  js/news-widget.js dari data contoh yang nantinya bisa diganti API.
+-->
+<section class="nw-news-widget" id="portal-berita" aria-label="Portal Berita BPAD NTT">
+  <div class="nw-news-shell" id="newsWidgetRoot">
+    <div class="nw-skeleton nw-skeleton-hero"></div>
+    <div class="nw-skeleton-row">
+      <div class="nw-skeleton"></div>
+      <div class="nw-skeleton"></div>
+      <div class="nw-skeleton"></div>
     </div>
   </div>
 </section>
@@ -135,11 +173,11 @@
 -->
 <section class="quick-links">
   <div class="quick-links-inner">
-    <a class="quick-link" href="#layanan"><i class="ti ti-receipt-tax"></i> Layanan Pajak</a>
+    <a class="quick-link" href="#layanan"><i class="ti ti-receipt-tax"></i> Layanan</a>
     <a class="quick-link" href="#ppid"><i class="ti ti-file-search"></i> PPID</a>
     <a class="quick-link" href="#profil"><i class="ti ti-map-2"></i> UPTD</a>
-    <a class="quick-link" href="#pengumuman"><i class="ti ti-bell"></i> Pengumuman</a>
-    <a class="quick-link" href="https://magangbpad.netlify.app/" target="_blank" rel="noopener"><i class="ti ti-apps"></i> Aplikasi</a>
+    <a class="quick-link" href="#portal-berita"><i class="ti ti-news"></i> Berita</a>
+    <a class="quick-link" href="#pengumuman"><i class="ti ti-bell"></i> Info</a>
   </div>
 </section>
 
@@ -151,7 +189,7 @@
   <div class="section-hdr">
     <div class="section-hdr-left">
       <div class="section-eyebrow"><i class="ti ti-target"></i> Profil Instansi</div>
-      <div class="section-title">Visi & Misi BAPENDA</div>
+      <div class="section-title">Visi & Misi BPAD</div>
     </div>
   </div>
   <div class="visi-grid">
@@ -269,9 +307,9 @@
         <li>Emanuel Kara (2010-2014)</li>
         <li>Obaldus Toda - Dispenda (2014-2017)</li>
         <li>Hali Lanan Elias - BPPKAD (2017-2019)</li>
-        <li>Zet Libing - Bapenda (2019-2021)</li>
-        <li>Alexon Lumba - Bapenda (2022-2026)</li>
-        <li>Johny Ericson Ataupah, SP. MM - Bapenda (2026-sekarang)</li>
+        <li>Zet Libing - BPAD (2019-2021)</li>
+        <li>Alexon Lumba - BPAD (2022-2026)</li>
+        <li>Johny Ericson Ataupah, SP. MM - BPAD (2026-sekarang)</li>
       </ol>
     </div>
     <div class="detail-card">
@@ -326,7 +364,7 @@
   <div class="section-hdr">
     <div class="section-hdr-left">
       <div class="section-eyebrow"><i class="ti ti-grid-dots"></i> Layanan Kami</div>
-      <div class="section-title">Layanan Unggulan BAPENDA</div>
+      <div class="section-title">Layanan Unggulan BPAD</div>
     </div>
     <a href="#" class="see-all">Lihat Semua Layanan <i class="ti ti-arrow-right"></i></a>
   </div>
@@ -397,7 +435,7 @@
 </section>
 
 <!--
-  BERITA
+  ARSIP BERITA
   Kartu berita TIDAK ditulis langsung di sini.
   Elemen #beritaGrid akan diisi otomatis dari data/berita.json
   oleh file js/main.js.
@@ -405,10 +443,10 @@
 <section class="section-alt" id="berita">
   <div class="section-hdr">
     <div class="section-hdr-left">
-      <div class="section-eyebrow"><i class="ti ti-news"></i> Berita Terkini</div>
-      <div class="section-title">Informasi & Berita BAPENDA</div>
+      <div class="section-eyebrow"><i class="ti ti-archive"></i> Arsip Berita</div>
+      <div class="section-title">Daftar Berita dan Informasi BPAD</div>
     </div>
-    <a href="#" class="see-all">Semua Berita <i class="ti ti-arrow-right"></i></a>
+    <a href="#portal-berita" class="see-all">Kembali ke Portal Berita <i class="ti ti-arrow-up-right"></i></a>
   </div>
   <div class="berita-grid" id="beritaGrid"></div>
 </section>
@@ -530,7 +568,9 @@
   File ini mengatur menu mobile, dropdown Aplikasi,
   dan membaca data JSON untuk PPID, Berita, dan Pengumuman.
 -->
-<script src="js/main.js?v=20260509-2"></script>
+<script src="js/main.js?v=20260511-1"></script>
+<script src="js/news-widget.js?v=20260511"></script>
+<script src="js/chatbot.js?v=20260509"></script>
 
 </body>
 </html>
