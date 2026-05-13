@@ -6,6 +6,7 @@
 const DATA_FILES = {
   berita: 'data/berita.json',
   pengumuman: 'data/pengumuman.json',
+  agenda: 'data/agenda.json',
   ppid: 'data/ppid.json'
 };
 
@@ -48,6 +49,10 @@ const FALLBACK_DATA = {
     { judul: 'Perubahan Jam Pelayanan UPTD Samsat Kupang Selama Masa Libur Nasional', tanggal: '2026-05-18' },
     { judul: 'Rekrutmen Tenaga Pendamping Pajak Daerah Kabupaten/Kota Tahun 2026', tanggal: '2026-05-16' },
     { judul: 'Sosialisasi Peraturan Daerah tentang Pajak Daerah bagi Pelaku Usaha di Kupang', tanggal: '2026-05-14' }
+  ],
+  agenda: [
+    { judul: 'Forum Konsultasi Publik Layanan Pajak Daerah', tanggal: '2026-05-21' },
+    { judul: 'Sosialisasi Pajak Daerah di UPTD Kota Kupang', tanggal: '2026-05-19' }
   ],
   ppid: [
     {
@@ -360,7 +365,27 @@ function renderPengumuman(items) {
 }
 
 // =========================================================
-// 9. Render daftar PPID
+// 9. Render daftar agenda kegiatan
+// =========================================================
+// Fungsi ini mengambil data dari agenda.json lalu membuat
+// daftar agenda ke dalam elemen #agendaList.
+function renderAgenda(items) {
+  const container = document.getElementById('agendaList');
+  if (!container) return;
+
+  container.innerHTML = items.map((item) => `
+    <li class="pgm-item">
+      <div class="pgm-dot"></div>
+      <div class="pgm-content">
+        <div class="pgm-title">${item.judul}</div>
+        <div class="pgm-date">${formatTanggal(item.tanggal)}</div>
+      </div>
+    </li>
+  `).join('');
+}
+
+// =========================================================
+// 10. Render daftar PPID
 // =========================================================
 // Fungsi ini mengambil data dari ppid.json lalu membuat
 // kartu PPID ke dalam elemen #ppidGrid.
@@ -380,7 +405,7 @@ function renderPpid(items) {
 }
 
 // =========================================================
-// 10. Jalankan proses pengisian konten
+// 11. Jalankan proses pengisian konten
 // =========================================================
 // Urutan kerjanya:
 // 1. Tampilkan fallback dulu agar halaman tidak kosong.
@@ -390,6 +415,7 @@ function renderPpid(items) {
 async function hydrateContent() {
   renderBerita(FALLBACK_DATA.berita);
   renderPengumuman(FALLBACK_DATA.pengumuman);
+  renderAgenda(FALLBACK_DATA.agenda);
   renderPpid(FALLBACK_DATA.ppid);
 
   try {
@@ -405,6 +431,12 @@ async function hydrateContent() {
   }
 
   try {
+    renderAgenda(await loadJson(DATA_FILES.agenda));
+  } catch (error) {
+    console.warn(error);
+  }
+
+  try {
     renderPpid(await loadJson(DATA_FILES.ppid));
   } catch (error) {
     console.warn(error);
@@ -412,7 +444,7 @@ async function hydrateContent() {
 }
 
 // =========================================================
-// 11. Popup konfirmasi link PPID
+// 12. Popup konfirmasi link PPID
 // =========================================================
 // Link PPID diarahkan ke luar website. Popup ini memberi tahu
 // pengguna tujuan link sebelum membuka Google Drive atau Google Form.
@@ -761,7 +793,179 @@ function toggleAppMenu(event) {
 }
 
 // =========================================================
-// 17. Tanggal update PAD hari ini
+// 17. Hero slider
+// =========================================================
+// Hero menggunakan beberapa gambar latar agar halaman terasa hidup.
+// Pengguna bisa pindah slide lewat tombol, titik, atau swipe di mobile.
+function initHeroSlider() {
+  const slider = document.getElementById('heroSlider');
+  const prevBtn = document.getElementById('heroPrev');
+  const nextBtn = document.getElementById('heroNext');
+  const dotsWrap = document.getElementById('heroDots');
+  if (!slider || !prevBtn || !nextBtn || !dotsWrap) return;
+
+  const slides = Array.from(slider.querySelectorAll('.hero-slide'));
+  if (!slides.length) return;
+
+  let currentIndex = 0;
+  let autoTimer = null;
+  let touchStartX = 0;
+  let touchDeltaX = 0;
+  const AUTO_SLIDE_MS = 10000;
+
+  const getRandomNextIndex = () => {
+    if (slides.length <= 1) return 0;
+
+    let nextIndex = currentIndex;
+    while (nextIndex === currentIndex) {
+      nextIndex = Math.floor(Math.random() * slides.length);
+    }
+    return nextIndex;
+  };
+
+  const renderDots = () => {
+    dotsWrap.innerHTML = slides.map((_, index) => `
+      <button class="hero-dot ${index === currentIndex ? 'is-active' : ''}"
+        type="button"
+        data-index="${index}"
+        aria-label="Tampilkan slide ${index + 1}"></button>
+    `).join('');
+  };
+
+  const setActiveSlide = (targetIndex) => {
+    currentIndex = (targetIndex + slides.length) % slides.length;
+    slides.forEach((slide, index) => {
+      slide.classList.toggle('is-active', index === currentIndex);
+    });
+    dotsWrap.querySelectorAll('.hero-dot').forEach((dot, index) => {
+      dot.classList.toggle('is-active', index === currentIndex);
+    });
+  };
+
+  const restartAutoSlide = () => {
+    if (autoTimer) window.clearInterval(autoTimer);
+    autoTimer = window.setInterval(() => setActiveSlide(getRandomNextIndex()), AUTO_SLIDE_MS);
+  };
+
+  renderDots();
+  setActiveSlide(0);
+  restartAutoSlide();
+
+  prevBtn.addEventListener('click', () => {
+    setActiveSlide(currentIndex - 1);
+    restartAutoSlide();
+  });
+
+  nextBtn.addEventListener('click', () => {
+    setActiveSlide(currentIndex + 1);
+    restartAutoSlide();
+  });
+
+  dotsWrap.addEventListener('click', (event) => {
+    const dot = event.target.closest('.hero-dot');
+    if (!dot) return;
+
+    const targetIndex = Number(dot.dataset.index);
+    if (Number.isNaN(targetIndex)) return;
+
+    setActiveSlide(targetIndex);
+    restartAutoSlide();
+  });
+
+  slider.addEventListener('touchstart', (event) => {
+    touchStartX = event.changedTouches[0].clientX;
+    touchDeltaX = 0;
+  }, { passive: true });
+
+  slider.addEventListener('touchmove', (event) => {
+    touchDeltaX = event.changedTouches[0].clientX - touchStartX;
+  }, { passive: true });
+
+  slider.addEventListener('touchend', () => {
+    if (Math.abs(touchDeltaX) < 45) return;
+
+    if (touchDeltaX < 0) setActiveSlide(currentIndex + 1);
+    else setActiveSlide(currentIndex - 1);
+
+    restartAutoSlide();
+  });
+}
+
+function searchBeritaCards(query) {
+  const cards = Array.from(document.querySelectorAll('#beritaGrid .berita-card'));
+  if (!cards.length) return false;
+
+  const matchedCard = cards.find((card) => {
+    const title = card.querySelector('.berita-title')?.textContent?.toLowerCase() || '';
+    const summary = card.querySelector('.berita-summary')?.textContent?.toLowerCase() || '';
+    const category = card.querySelector('.berita-tag')?.textContent?.toLowerCase() || '';
+
+    return title.includes(query) || summary.includes(query) || category.includes(query);
+  });
+
+  if (!matchedCard) return false;
+
+  document.querySelectorAll('#beritaGrid .berita-card.search-hit')
+    .forEach((card) => card.classList.remove('search-hit'));
+  matchedCard.classList.add('search-hit');
+
+  matchedCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  history.replaceState(null, '', '#berita');
+
+  window.setTimeout(() => {
+    matchedCard.classList.remove('search-hit');
+  }, 1800);
+
+  return true;
+}
+
+// =========================================================
+// 18. Pencarian cepat di headbar
+// =========================================================
+// Kotak pencarian ini membantu pengguna melompat cepat ke section
+// utama berdasarkan kata kunci sederhana.
+function handleNavSearch(event) {
+  event.preventDefault();
+
+  const input = document.getElementById('navSearchInput');
+  if (!input) return;
+
+  const query = input.value.trim().toLowerCase();
+  if (!query) return;
+
+  if (searchBeritaCards(query)) return;
+
+  const searchTargets = [
+    { id: 'profil', keywords: ['profil', 'tentang', 'struktur', 'uptd'] },
+    { id: 'layanan', keywords: ['layanan', 'pelayanan', 'pajak', 'samsat'] },
+    { id: 'ppid', keywords: ['ppid', 'informasi', 'permohonan'] },
+    { id: 'berita', keywords: ['berita', 'kabar', 'news'] },
+    { id: 'pengumuman', keywords: ['pengumuman', 'info', 'agenda'] },
+    { id: 'kontak', keywords: ['kontak', 'alamat', 'lokasi', 'hubungi'] }
+  ];
+
+  const match = searchTargets.find((target) =>
+    target.keywords.some((keyword) => query.includes(keyword))
+  );
+
+  if (!match) {
+    input.value = '';
+    input.placeholder = 'Menu tidak ditemukan';
+    window.setTimeout(() => {
+      input.placeholder = 'Cari menu...';
+    }, 1400);
+    return;
+  }
+
+  const section = document.getElementById(match.id);
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    history.replaceState(null, '', `#${match.id}`);
+  }
+}
+
+// =========================================================
+// 19. Tanggal update PAD hari ini
 // =========================================================
 // Komponen PAD memakai placeholder sampai tersedia sumber data resmi,
 // tetapi tanggal update dibuat otomatis agar selalu sesuai hari akses.
@@ -779,7 +983,7 @@ function updatePadTodayDate() {
 }
 
 // =========================================================
-// 18. Animasi halus saat scroll
+// 20. Animasi halus saat scroll
 // =========================================================
 // Elemen penting diberi class scroll-reveal secara otomatis.
 // IntersectionObserver membuat animasi baru berjalan saat elemen
@@ -875,7 +1079,10 @@ document.querySelectorAll('#appMenu a').forEach((link) => {
   });
 });
 
+document.getElementById('navSearchForm')?.addEventListener('submit', handleNavSearch);
+
 // Mulai isi konten dinamis ketika script dimuat.
+initHeroSlider();
 updatePadTodayDate();
 hydrateContent();
 initUptdPopup();
