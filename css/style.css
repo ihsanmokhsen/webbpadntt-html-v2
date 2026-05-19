@@ -556,8 +556,20 @@ img { max-width: 100%; }
 }
 
 /* ===================== LAYANAN ===================== */
-.section { padding: 56px 32px; }
-.section-alt { padding: 56px 32px; background: var(--white); }
+.section {
+  position: relative;
+  overflow: hidden;
+  padding: 56px 32px;
+  background: rgba(247,249,252,.72);
+  backdrop-filter: blur(.4px);
+}
+.section-alt {
+  position: relative;
+  overflow: hidden;
+  padding: 56px 32px;
+  background: rgba(255,255,255,.74);
+  backdrop-filter: blur(.4px);
+}
 .section-hdr { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; }
 .section-hdr-left {}
 .section-eyebrow {
@@ -814,6 +826,54 @@ img { max-width: 100%; }
 .struktur-grid { grid-template-columns: repeat(2, 1fr); }
 .history-grid { grid-template-columns: .9fr 1.1fr; margin-top: 16px; }
 .ppid-grid { grid-template-columns: repeat(3, 1fr); }
+.ppid-dark {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(232,184,75,.16), transparent 28%),
+    linear-gradient(135deg, rgba(6,22,38,.98), rgba(12,42,68,.96)),
+    var(--navy);
+  color: var(--white);
+}
+.ppid-dark::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  backdrop-filter: blur(.7px);
+  -webkit-backdrop-filter: blur(.7px);
+  background: linear-gradient(180deg, rgba(5,18,32,.1), rgba(5,18,32,.34));
+}
+.ppid-dark > * {
+  position: relative;
+  z-index: 1;
+}
+.ppid-dark .section-eyebrow {
+  color: var(--gold2);
+}
+.ppid-dark .section-title {
+  color: var(--white);
+}
+.ppid-dark .see-all {
+  color: var(--gold2);
+}
+.ppid-dark .detail-card {
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.14);
+  box-shadow: 0 18px 44px rgba(0,0,0,.18);
+}
+.ppid-dark .detail-card h3 {
+  color: var(--white);
+}
+.ppid-dark .detail-card p {
+  color: #cfe0ef;
+}
+.ppid-dark .doc-link {
+  color: var(--gold2);
+}
+.ppid-dark .doc-link:hover {
+  color: var(--white);
+}
 .struktur-wrap { margin-top: 8px; }
 .small-title { font-size: 22px; margin-bottom: 14px; }
 .detail-card {
@@ -1272,11 +1332,17 @@ body.modal-open {
 
 /* ===================== INFO BAR ===================== */
 .info-bar {
+  position: relative;
+  overflow: hidden;
   background: linear-gradient(135deg, #0a1e33, var(--navy));
   padding: 50px 32px;
   display: grid;
   grid-template-columns: repeat(3,1fr);
   gap: 24px;
+}
+.info-bar > * {
+  position: relative;
+  z-index: 1;
 }
 .info-block h3 {
   font-size: 12px;
