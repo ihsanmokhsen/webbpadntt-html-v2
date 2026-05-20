@@ -338,7 +338,23 @@ img { max-width: 100%; }
 }
 .hero-slide.is-active {
   opacity: 1;
-  transform: scale(1);
+  transform: scale(1.02);
+  animation: heroBreath 10s ease-in-out forwards;
+}
+
+@keyframes heroBreath {
+  0% {
+    transform: scale(1.02) translate3d(0, 0, 0);
+    background-position: center center;
+  }
+  50% {
+    transform: scale(1.055) translate3d(-.4%, -.35%, 0);
+    background-position: 51% 49%;
+  }
+  100% {
+    transform: scale(1.08) translate3d(.35%, .25%, 0);
+    background-position: 49% 51%;
+  }
 }
 .hero-overlay {
   position: absolute;
@@ -1760,6 +1776,10 @@ footer a:hover { color: var(--gold); }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hero-slide.is-active {
+    animation: none;
+    transform: scale(1.02);
+  }
   .scroll-reveal {
     opacity: 1;
     transform: none;
