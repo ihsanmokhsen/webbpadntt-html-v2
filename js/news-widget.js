@@ -138,8 +138,8 @@
     },
     {
       id: 10,
-      title: 'Video Profil dan Informasi Layanan BPAD NTT',
-      summary: 'Video YouTube terkait informasi BPAD NTT dan layanan publik daerah.',
+      title: 'Optimalisasi pembayaran wajib pajak BPAD Prov NTT @republiknews21',
+      summary: 'Liputan video terkait optimalisasi pembayaran wajib pajak BPAD Provinsi NTT.',
       category: 'Video',
       date: '2026-05-20',
       readTime: '1 menit',
@@ -152,8 +152,8 @@
     },
     {
       id: 11,
-      title: 'Dokumentasi Video Kegiatan BPAD NTT',
-      summary: 'Dokumentasi kegiatan BPAD NTT melalui kanal YouTube.',
+      title: 'PS. BADAN PENDAPATAN DAN ASET DAERAH PROVINSI NTT - GAILARU MARADA',
+      summary: 'Dokumentasi video dari kanal YouTube BPAD Provinsi NTT.',
       category: 'Video',
       date: '2026-05-20',
       readTime: '2 menit',
@@ -166,8 +166,8 @@
     },
     {
       id: 12,
-      title: 'Publikasi Video BPAD NTT',
-      summary: 'Publikasi video BPAD NTT sebagai bagian dari informasi layanan dan kegiatan daerah.',
+      title: 'HUT NTT ke-64 NTT : TARIAN HEDUNG DAN DOLO - DOLO | BADAN PENDAPATAN DAN ASET DAERAH PROVINSI NTT',
+      summary: 'Publikasi video BPAD NTT dalam rangka peringatan HUT NTT ke-64.',
       category: 'Video',
       date: '2026-05-20',
       readTime: '2 menit',
@@ -177,6 +177,20 @@
       imageTone: ['#183b56', '#d71920'],
       isVideo: true,
       views: 590
+    },
+    {
+      id: 13,
+      title: 'Operasi rokok ilegal Prov NTT @renews21',
+      summary: 'Liputan video terkait operasi rokok ilegal di Provinsi NTT.',
+      category: 'Video',
+      date: '2026-05-20',
+      readTime: '1 menit',
+      videoDuration: 'YouTube',
+      youtubeId: '_uLTJ3ebGbA',
+      videoUrl: 'https://www.youtube.com/watch?v=_uLTJ3ebGbA',
+      imageTone: ['#7a1f1f', '#d6a243'],
+      isVideo: true,
+      views: 560
     }
   ];
 
@@ -273,7 +287,7 @@
 
     const headlines = items.filter((item) => item.isHeadline).slice(0, 3);
     const latest = items.filter((item) => !item.isHeadline && !item.isVideo).slice(0, 6);
-    const videos = items.filter((item) => item.isVideo).slice(0, 3);
+    const videos = items.filter((item) => item.isVideo).slice(0, 4);
     const breaking = items.filter((item) => item.isBreaking).slice(0, 4);
 
     root.innerHTML = `
