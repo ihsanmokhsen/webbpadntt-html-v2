@@ -24,11 +24,13 @@
   const NEWS_DUMMY_DATA = [
     {
       id: 1,
-      title: 'Portal Berita BPAD NTT Siap Menampilkan Informasi Resmi Daerah',
-      summary: 'Kanal berita ini disiapkan sebagai ruang informasi resmi terkait pendapatan daerah, aset, layanan publik, dan agenda BPAD NTT.',
-      category: 'Informasi Resmi',
-      date: '2026-05-11',
+      title: 'Rakor Samsat NTT 2026 Dorong Kolaborasi dan Inovasi Pendapatan Daerah',
+      summary: 'BPAD NTT menguatkan koordinasi layanan Samsat untuk mendukung peningkatan pendapatan daerah dan pelayanan kepada masyarakat.',
+      category: 'Pendapatan Daerah',
+      date: '2026-05-19',
       readTime: '3 menit',
+      image: 'assets/instagram-02.jpg',
+      url: 'https://www.instagram.com/p/DYgqbQzEzoj/',
       imageTone: ['#0f2640', '#d71920'],
       isHeadline: true,
       isBreaking: true,
@@ -36,11 +38,13 @@
     },
     {
       id: 2,
-      title: 'Permohonan Informasi PPID Terhubung Melalui Formulir Online',
-      summary: 'Masyarakat dapat mengajukan permohonan informasi publik melalui formulir resmi yang tersedia pada kanal PPID.',
-      category: 'PPID',
-      date: '2026-05-10',
+      title: 'Kepala BPAD NTT Pimpin Rapat Internal Usai Pelantikan',
+      summary: 'Arahan internal dilakukan untuk memperkuat ritme kerja, koordinasi bidang, dan kesiapan pelaksanaan agenda BPAD NTT.',
+      category: 'Agenda BPAD',
+      date: '2026-05-18',
       readTime: '2 menit',
+      image: 'assets/instagram-03.jpg',
+      url: 'https://www.instagram.com/p/DYezpNHE8ca/',
       imageTone: ['#183b56', '#d6a243'],
       isHeadline: true,
       isBreaking: true,
@@ -48,48 +52,92 @@
     },
     {
       id: 3,
-      title: 'Sebaran UPTD Mendukung Layanan Pendapatan Daerah di NTT',
-      summary: 'Informasi sebaran UPTD disiapkan agar masyarakat lebih mudah mengetahui kanal layanan pendapatan daerah di kabupaten/kota.',
+      title: 'Samsat Keliling UPTD Kabupaten Kupang Dekatkan Layanan Pajak Kendaraan',
+      summary: 'UPTD Pendapatan Daerah Wilayah Kabupaten Kupang melaksanakan layanan Samsat Keliling untuk memudahkan wajib pajak.',
       category: 'Layanan',
-      date: '2026-05-09',
+      date: '2026-05-16',
       readTime: '4 menit',
+      image: 'assets/instagram-07.jpg',
+      url: 'https://www.instagram.com/p/DYZVHfMExaT/',
       imageTone: ['#0f4c81', '#18a999'],
       isHeadline: true,
       views: 980
     },
     {
       id: 4,
-      title: 'Informasi Target PAD 2026 Ditampilkan sebagai Ringkasan Layanan Publik',
-      summary: 'Ringkasan target PAD 2026 disiapkan pada halaman depan sebagai informasi cepat bagi pengunjung website.',
-      category: 'Pendapatan Daerah',
-      date: '2026-05-08',
+      title: 'Tim Optimalisasi PAD Bahas Tindak Lanjut Rapat Pimpinan OPD',
+      summary: 'Rapat tindak lanjut dilakukan untuk memperkuat strategi optimalisasi Pendapatan Asli Daerah Provinsi NTT.',
+      category: 'PAD',
+      date: '2026-05-16',
       readTime: '3 menit',
+      image: 'assets/instagram-08.jpg',
+      url: 'https://www.instagram.com/p/DYZUyMrE4_s/',
       imageTone: ['#5b2c6f', '#d6a243'],
       views: 760
     },
     {
       id: 5,
-      title: 'Kotak Saran SKM Dibuka untuk Peningkatan Mutu Pelayanan Publik',
-      summary: 'Aspirasi masyarakat menjadi masukan penting dalam perbaikan kualitas layanan BPAD NTT.',
-      category: 'SKM',
-      date: '2026-05-07',
+      title: 'Informasi Pergub NTT Nomor 13 Tahun 2025 Terkait Optimalisasi Pajak Daerah',
+      summary: 'BPAD NTT membagikan informasi kebijakan terkait optimalisasi PKB, BBNKB, dan penguatan penerimaan daerah.',
+      category: 'Regulasi',
+      date: '2026-05-12',
       readTime: '2 menit',
+      image: 'assets/instagram-10.jpg',
+      url: 'https://www.instagram.com/p/DYN_vmVE8Yz/',
       imageTone: ['#7a1f1f', '#f59e0b'],
       isBreaking: true,
       views: 720
     },
     {
       id: 6,
-      title: 'Arsip Berita Menjadi Daftar Informasi dan Kegiatan BPAD',
-      summary: 'Daftar berita tetap tersedia sebagai arsip agar pengunjung dapat melihat informasi yang pernah dipublikasikan.',
-      category: 'Arsip Berita',
-      date: '2026-05-06',
+      title: 'Keluarga Besar BPAD NTT Turut Berduka Cita',
+      summary: 'BPAD NTT menyampaikan ungkapan duka cita sebagai bagian dari publikasi resmi kelembagaan.',
+      category: 'Publikasi',
+      date: '2026-05-18',
       readTime: '4 menit',
+      image: 'assets/instagram-06.jpg',
+      url: 'https://www.instagram.com/p/DYdiFe2kwZr/',
       imageTone: ['#0b1726', '#64748b'],
       views: 690
     },
     {
       id: 7,
+      title: 'Selamat Memperingati Hari Kenaikan Yesus Kristus',
+      summary: 'BPAD NTT membagikan ucapan peringatan hari besar keagamaan kepada masyarakat Nusa Tenggara Timur.',
+      category: 'Ucapan Resmi',
+      date: '2026-05-14',
+      readTime: '2 menit',
+      image: 'assets/instagram-09.jpg',
+      url: 'https://www.instagram.com/p/DYTbl8DzfHL/',
+      imageTone: ['#d71920', '#0f2640'],
+      views: 660
+    },
+    {
+      id: 8,
+      title: 'Dokumentasi Kegiatan BPAD NTT',
+      summary: 'Dokumentasi kegiatan dan publikasi visual BPAD NTT yang dibagikan melalui kanal Instagram resmi.',
+      category: 'Dokumentasi',
+      date: '2026-05-18',
+      readTime: '2 menit',
+      image: 'assets/instagram-01.jpg',
+      url: 'https://www.instagram.com/p/DYeKbN9ExgZ/',
+      imageTone: ['#0f4c81', '#d6a243'],
+      views: 640
+    },
+    {
+      id: 9,
+      title: 'Publikasi Resmi BPAD NTT',
+      summary: 'Kanal media sosial BPAD NTT menjadi ruang publikasi kegiatan, layanan, dan informasi kelembagaan.',
+      category: 'Media Sosial',
+      date: '2026-05-18',
+      readTime: '2 menit',
+      image: 'assets/instagram-05.jpg',
+      url: 'https://www.instagram.com/p/DYd94qPz0Dc/',
+      imageTone: ['#183b56', '#d71920'],
+      views: 620
+    },
+    {
+      id: 10,
       title: 'Video Profil dan Informasi Layanan BPAD NTT',
       summary: 'Video YouTube terkait informasi BPAD NTT dan layanan publik daerah.',
       category: 'Video',
@@ -103,7 +151,7 @@
       views: 640
     },
     {
-      id: 8,
+      id: 11,
       title: 'Dokumentasi Video Kegiatan BPAD NTT',
       summary: 'Dokumentasi kegiatan BPAD NTT melalui kanal YouTube.',
       category: 'Video',
@@ -117,7 +165,7 @@
       views: 610
     },
     {
-      id: 9,
+      id: 12,
       title: 'Publikasi Video BPAD NTT',
       summary: 'Publikasi video BPAD NTT sebagai bagian dari informasi layanan dan kegiatan daerah.',
       category: 'Video',
@@ -180,6 +228,19 @@
     return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
   }
 
+  function getNewsImage(item) {
+    return item.image || createNewsImage(item);
+  }
+
+  function getSafeUrl(value) {
+    const url = String(value || '').trim();
+    if (!url) return '';
+    if (/^(https?:)?\/\//i.test(url) || url.startsWith('/') || url.startsWith('./') || url.startsWith('../')) {
+      return url;
+    }
+    return '';
+  }
+
   function getVideoThumbnail(item) {
     if (item.youtubeId) {
       return `https://img.youtube.com/vi/${encodeURIComponent(item.youtubeId)}/hqdefault.jpg`;
@@ -221,7 +282,7 @@
           <div class="nw-eyebrow"><i class="ti ti-bolt"></i> Portal Berita BPAD</div>
           <h2 class="nw-title">Kabar <span>Terkini</span> Daerah</h2>
         </div>
-        <p class="nw-subtitle">Ringkasan informasi resmi BPAD NTT. Konten awal bersifat contoh dan siap diganti dengan data berita resmi.</p>
+        <p class="nw-subtitle">Ringkasan informasi resmi BPAD NTT dari publikasi Instagram, siap menjadi contoh struktur data sebelum migrasi ke database/API.</p>
       </div>
 
       <div class="nw-breaking" aria-label="Breaking news">
@@ -258,8 +319,8 @@
     return `
       <div class="nw-slider" id="nwSlider">
         ${items.map((item, index) => `
-          <article class="nw-slide ${index === 0 ? 'active' : ''}" data-slide="${index}">
-            <img src="${createNewsImage(item)}" alt="${escapeHtml(item.title)}" loading="${index === 0 ? 'eager' : 'lazy'}">
+          <a class="nw-slide ${index === 0 ? 'active' : ''}" data-slide="${index}" href="${escapeHtml(getSafeUrl(item.url) || '#')}" target="_blank" rel="noopener">
+            <img src="${escapeHtml(getNewsImage(item))}" alt="${escapeHtml(item.title)}" loading="${index === 0 ? 'eager' : 'lazy'}">
             <div class="nw-slide-content">
               <div class="nw-meta">
                 <span class="nw-badge"><i class="ti ti-news"></i> ${escapeHtml(item.category)}</span>
@@ -268,7 +329,7 @@
               <h3>${escapeHtml(item.title)}</h3>
               <p>${escapeHtml(item.summary)}</p>
             </div>
-          </article>
+          </a>
         `).join('')}
         <div class="nw-dots">
           ${items.map((_, index) => `<button class="nw-dot ${index === 0 ? 'active' : ''}" type="button" data-dot="${index}" aria-label="Berita utama ${index + 1}"></button>`).join('')}
@@ -283,9 +344,9 @@
 
   function renderNewsCard(item) {
     return `
-      <article class="nw-card">
+      <a class="nw-card" href="${escapeHtml(getSafeUrl(item.url) || '#')}" target="_blank" rel="noopener">
         <div class="nw-card-media">
-          <img src="${createNewsImage(item)}" alt="${escapeHtml(item.title)}" loading="lazy">
+          <img src="${escapeHtml(getNewsImage(item))}" alt="${escapeHtml(item.title)}" loading="lazy">
         </div>
         <div class="nw-card-body">
           <div class="nw-meta">
@@ -295,7 +356,7 @@
           <h4>${escapeHtml(item.title)}</h4>
           <p>${escapeHtml(item.summary)}</p>
         </div>
-      </article>
+      </a>
     `;
   }
 
