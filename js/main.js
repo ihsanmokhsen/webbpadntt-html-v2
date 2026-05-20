@@ -342,6 +342,8 @@ function renderBerita(items) {
       </div>
     </div>
   `).join('');
+
+  highlightBeritaFromUrl();
 }
 
 // =========================================================
@@ -919,12 +921,38 @@ function searchBeritaCards(query) {
   return true;
 }
 
+async function searchBeritaData(query) {
+  const fallbackItems = FALLBACK_DATA.berita || [];
+
+  try {
+    const jsonItems = await loadJson(DATA_FILES.berita);
+    return [...jsonItems, ...fallbackItems].some((item) => {
+      const searchable = `${item.judul || ''} ${item.ringkasan || ''} ${item.kategori || ''}`.toLowerCase();
+      return searchable.includes(query);
+    });
+  } catch (error) {
+    return fallbackItems.some((item) => {
+      const searchable = `${item.judul || ''} ${item.ringkasan || ''} ${item.kategori || ''}`.toLowerCase();
+      return searchable.includes(query);
+    });
+  }
+}
+
+function highlightBeritaFromUrl() {
+  const query = new URLSearchParams(window.location.search).get('search');
+  if (!query) return;
+
+  window.requestAnimationFrame(() => {
+    searchBeritaCards(query.toLowerCase());
+  });
+}
+
 // =========================================================
 // 18. Pencarian cepat di headbar
 // =========================================================
 // Kotak pencarian ini membantu pengguna melompat cepat ke section
 // utama berdasarkan kata kunci sederhana.
-function handleNavSearch(event) {
+async function handleNavSearch(event) {
   event.preventDefault();
 
   const input = document.getElementById('navSearchInput');
@@ -935,13 +963,19 @@ function handleNavSearch(event) {
 
   if (searchBeritaCards(query)) return;
 
+  if (await searchBeritaData(query)) {
+    window.location.href = `berita.html?search=${encodeURIComponent(query)}#berita`;
+    return;
+  }
+
   const searchTargets = [
-    { id: 'profil', keywords: ['profil', 'tentang', 'struktur', 'uptd'] },
-    { id: 'layanan', keywords: ['layanan', 'pelayanan', 'pajak', 'samsat'] },
-    { id: 'ppid', keywords: ['ppid', 'informasi', 'permohonan'] },
-    { id: 'berita', keywords: ['berita', 'kabar', 'news'] },
-    { id: 'pengumuman', keywords: ['pengumuman', 'info', 'agenda'] },
-    { id: 'kontak', keywords: ['kontak', 'alamat', 'lokasi', 'hubungi'] }
+    { id: 'profil', url: 'profil.html', keywords: ['profil', 'tentang', 'struktur', 'uptd'] },
+    { id: 'layanan', url: 'layanan.html', keywords: ['layanan', 'pelayanan', 'pajak', 'samsat'] },
+    { id: 'galeri', url: 'galeri.html', keywords: ['galeri', 'foto', 'gambar', 'instagram', 'dokumentasi', 'kegiatan'] },
+    { id: 'ppid', url: 'ppid.html', keywords: ['ppid', 'informasi', 'permohonan'] },
+    { id: 'berita', url: 'berita.html', keywords: ['berita', 'kabar', 'news'] },
+    { id: 'pengumuman', url: 'index.html#pengumuman', keywords: ['pengumuman', 'info', 'agenda'] },
+    { id: 'kontak', url: 'index.html#kontak', keywords: ['kontak', 'alamat', 'lokasi', 'hubungi'] }
   ];
 
   const match = searchTargets.find((target) =>
@@ -961,6 +995,8 @@ function handleNavSearch(event) {
   if (section) {
     section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     history.replaceState(null, '', `#${match.id}`);
+  } else {
+    window.location.href = match.url;
   }
 }
 

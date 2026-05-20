@@ -90,27 +90,45 @@
     },
     {
       id: 7,
-      title: 'Video: Panduan Akses Informasi PPID BPAD NTT',
-      summary: 'Video ini disiapkan sebagai contoh format video news untuk panduan akses layanan PPID.',
+      title: 'Video Profil dan Informasi Layanan BPAD NTT',
+      summary: 'Video YouTube terkait informasi BPAD NTT dan layanan publik daerah.',
       category: 'Video',
-      date: '2026-05-05',
+      date: '2026-05-20',
       readTime: '1 menit',
-      videoDuration: '01:35',
+      videoDuration: 'YouTube',
+      youtubeId: 'tXUwLeKHebE',
+      videoUrl: 'https://www.youtube.com/watch?v=tXUwLeKHebE&pp=ygUIYnBhZCBudHQ%3D',
       imageTone: ['#d71920', '#0f2640'],
       isVideo: true,
       views: 640
     },
     {
       id: 8,
-      title: 'Video: Mengenal Kanal Layanan BPAD NTT',
-      summary: 'Ringkasan kanal layanan BPAD NTT untuk masyarakat dan pemangku kepentingan.',
+      title: 'Dokumentasi Video Kegiatan BPAD NTT',
+      summary: 'Dokumentasi kegiatan BPAD NTT melalui kanal YouTube.',
       category: 'Video',
-      date: '2026-05-04',
+      date: '2026-05-20',
       readTime: '2 menit',
-      videoDuration: '02:10',
+      videoDuration: 'YouTube',
+      youtubeId: 'KBTeuUTNF3A',
+      videoUrl: 'https://www.youtube.com/watch?v=KBTeuUTNF3A&list=RDKBTeuUTNF3A&start_radio=1&pp=ygUIYnBhZCBudHSgBwE%3D',
       imageTone: ['#0f4c81', '#d6a243'],
       isVideo: true,
       views: 610
+    },
+    {
+      id: 9,
+      title: 'Publikasi Video BPAD NTT',
+      summary: 'Publikasi video BPAD NTT sebagai bagian dari informasi layanan dan kegiatan daerah.',
+      category: 'Video',
+      date: '2026-05-20',
+      readTime: '2 menit',
+      videoDuration: 'YouTube',
+      youtubeId: 'E-pyNjNMUj4',
+      videoUrl: 'https://www.youtube.com/watch?v=E-pyNjNMUj4&pp=ygUIYnBhZCBudHQ%3D',
+      imageTone: ['#183b56', '#d71920'],
+      isVideo: true,
+      views: 590
     }
   ];
 
@@ -160,6 +178,13 @@
     `;
 
     return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+  }
+
+  function getVideoThumbnail(item) {
+    if (item.youtubeId) {
+      return `https://img.youtube.com/vi/${encodeURIComponent(item.youtubeId)}/hqdefault.jpg`;
+    }
+    return createNewsImage(item);
   }
 
   async function loadNewsData() {
@@ -283,16 +308,16 @@
         </div>
         <div class="nw-video-list">
           ${items.map((item) => `
-            <article class="nw-video-item">
+            <a class="nw-video-item" href="${escapeHtml(item.videoUrl || '#')}" target="_blank" rel="noopener">
               <div class="nw-video-thumb">
-                <img src="${createNewsImage(item)}" alt="${escapeHtml(item.title)}" loading="lazy">
+                <img src="${getVideoThumbnail(item)}" alt="${escapeHtml(item.title)}" loading="lazy">
                 <div class="nw-play"><span><i class="ti ti-player-play-filled"></i></span></div>
               </div>
               <div>
                 <div class="nw-video-title">${escapeHtml(item.title)}</div>
                 <div class="nw-video-time">${escapeHtml(item.videoDuration || '01:00')} · ${formatNewsDate(item.date)}</div>
               </div>
-            </article>
+            </a>
           `).join('')}
         </div>
       </section>

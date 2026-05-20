@@ -8,7 +8,7 @@
   -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BPAD – Badan Pendapatan dan Aset Daerah Provinsi NTT</title>
+  <title>Berita – BPAD NTT</title>
   <link rel="icon" type="image/png" href="assets/logo.png">
   <link rel="apple-touch-icon" href="assets/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,7 +49,7 @@
   </div>
   <div class="nav-links">
     <!-- Menu desktop -->
-    <a href="index.html" class="active">Beranda</a>
+    <a href="index.html">Beranda</a>
     <a href="profil.html">Profil</a>
     <a href="layanan.html">Layanan</a>
     <div class="nav-dropdown" id="appDropdown">
@@ -66,7 +66,7 @@
     </div>
     <a href="galeri.html">Galeri</a>
     <a href="ppid.html">PPID</a>
-    <a href="berita.html">Berita</a>
+    <a href="berita.html" class="active">Berita</a>
     <a href="index.html#pengumuman">Pengumuman</a>
     <form class="nav-search" id="navSearchForm" role="search" aria-label="Pencarian menu cepat">
       <i class="ti ti-search"></i>
@@ -116,118 +116,20 @@
 </section>
 
 <!--
-  HERO
-  Bagian pembuka website. Background gambar diatur dari CSS:
-  css/style.css pada class .hero.
+  ARSIP BERITA
+  Kartu berita TIDAK ditulis langsung di sini.
+  Elemen #beritaGrid akan diisi otomatis dari data/berita.json
+  oleh file js/main.js.
 -->
-<section class="hero">
-  <div class="hero-slider" id="heroSlider">
-    <div class="hero-slide is-active" style="background-image:url('assets/hero2.png');"></div>
-    <div class="hero-slide" style="background-image:url('assets/hero3.png');"></div>
-    <div class="hero-slide" style="background-image:url('assets/hero4.png');"></div>
-    <div class="hero-slide" style="background-image:url('assets/hero5.png');"></div>
-  </div>
-  <div class="hero-overlay"></div>
-  <div class="hero-deco1"></div>
-  <div class="hero-deco2"></div>
-  <div class="hero-deco3"></div>
-  <div class="hero-inner">
-    <div class="hero-badge">
-      <img src="assets/ayobangunntt.png" alt="Ayo Bangun NTT">
-    </div>
-    <h2>Optimalisasi <span>Pendapatan Daerah</span><br>& Pengelolaan Aset</h2>
-    <p>Memberikan pelayanan prima dalam pengelolaan pendapatan daerah dan aset untuk mendukung pembangunan Nusa Tenggara Timur yang berkeadilan dan berkelanjutan.</p>
-    <div class="hero-btns">
-      <a href="layanan.html" class="btn-gold"><i class="ti ti-list-check"></i> Lihat Layanan</a>
-      <a href="profil.html" class="btn-ghost"><i class="ti ti-info-circle"></i> Tentang Kami</a>
-    </div>
-  </div>
-  <button class="hero-nav hero-prev" id="heroPrev" type="button" aria-label="Slide sebelumnya">
-    <i class="ti ti-chevron-left"></i>
-  </button>
-  <button class="hero-nav hero-next" id="heroNext" type="button" aria-label="Slide berikutnya">
-    <i class="ti ti-chevron-right"></i>
-  </button>
-  <div class="hero-dots" id="heroDots" aria-label="Pilih slide hero"></div>
-</section>
-
-<!--
-  PORTAL BERITA MODERN
-  Komponen modular setelah hero. Isi widget dibuat oleh
-  js/news-widget.js dari data contoh yang nantinya bisa diganti API.
--->
-<section class="nw-news-widget" id="portal-berita" aria-label="Portal Berita BPAD NTT">
-  <div class="nw-news-shell" id="newsWidgetRoot">
-    <div class="nw-skeleton nw-skeleton-hero"></div>
-    <div class="nw-skeleton-row">
-      <div class="nw-skeleton"></div>
-      <div class="nw-skeleton"></div>
-      <div class="nw-skeleton"></div>
-    </div>
-  </div>
-</section>
-
-<!--
-  STATS STRIP
-  Ringkasan angka penting yang tampil tepat setelah hero.
--->
-<div class="stats-strip">
-  <div class="stat-item">
-    <div class="stat-num">Rp 2,8T</div>
-    <div class="stat-label">Target PAD 2026</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num">12+</div>
-    <div class="stat-label">Jenis Pajak Daerah</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num">22</div>
-    <div class="stat-label">Kab/Kota Wilayah</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num">80%</div>
-    <div class="stat-label">Kepuasan Wajib Pajak</div>
-    <div class="stat-note">Berdasarkan Laporan SKM 2025</div>
-  </div>
-</div>
-
-<!--
-  QUICK LINKS
-  Shortcut ke bagian-bagian yang paling sering dibuka pengunjung.
--->
-<section class="quick-links">
-  <div class="quick-links-inner">
-    <a class="quick-link" href="layanan.html"><i class="ti ti-receipt-tax"></i> Layanan</a>
-    <a class="quick-link" href="ppid.html"><i class="ti ti-file-search"></i> PPID</a>
-    <a class="quick-link" href="profil.html"><i class="ti ti-map-2"></i> UPTD</a>
-    <a class="quick-link" href="berita.html"><i class="ti ti-news"></i> Berita</a>
-    <a class="quick-link" href="index.html#pengumuman"><i class="ti ti-bell"></i> Info</a>
-  </div>
-</section>
-
-<!--
-  PENGUMUMAN
-  Daftar pengumuman TIDAK ditulis langsung di sini.
-  Elemen #pengumumanList akan diisi otomatis dari
-  data/pengumuman.json dan data/agenda.json oleh file js/main.js.
--->
-<section class="section" id="pengumuman">
+<section class="section-alt" id="berita">
   <div class="section-hdr">
     <div class="section-hdr-left">
-      <div class="section-eyebrow"><i class="ti ti-bell"></i> Pengumuman</div>
-      <div class="section-title">Pengumuman Resmi & Agenda Kegiatan</div>
+      <div class="section-eyebrow"><i class="ti ti-archive"></i> Arsip Berita</div>
+      <div class="section-title">Daftar Berita dan Informasi BPAD</div>
     </div>
+    <a href="index.html#portal-berita" class="see-all">Kembali ke Portal Berita <i class="ti ti-arrow-up-right"></i></a>
   </div>
-  <div class="pgm-grid">
-    <div class="pgm-card">
-      <h3 class="pgm-card-title"><i class="ti ti-speakerphone"></i> Pengumuman Resmi</h3>
-      <ul class="pgm-list" id="pengumumanList"></ul>
-    </div>
-    <div class="pgm-card">
-      <h3 class="pgm-card-title"><i class="ti ti-calendar-event"></i> Agenda Kegiatan</h3>
-      <ul class="pgm-list" id="agendaList"></ul>
-    </div>
-  </div>
+  <div class="berita-grid" id="beritaGrid"></div>
 </section>
 
 <!--
@@ -331,7 +233,7 @@
 <!--
   SCRIPT UTAMA
   File ini mengatur menu mobile, dropdown Aplikasi,
-  dan membaca data JSON untuk PPID, Berita, dan Pengumuman.
+  dan membaca data JSON untuk konten halaman.
 -->
 <script src="js/main.js?v=20260511-2"></script>
 <script src="js/news-widget.js?v=20260511"></script>

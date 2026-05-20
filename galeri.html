@@ -8,7 +8,7 @@
   -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BPAD – Badan Pendapatan dan Aset Daerah Provinsi NTT</title>
+  <title>Galeri – BPAD NTT</title>
   <link rel="icon" type="image/png" href="assets/logo.png">
   <link rel="apple-touch-icon" href="assets/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,7 +49,7 @@
   </div>
   <div class="nav-links">
     <!-- Menu desktop -->
-    <a href="index.html" class="active">Beranda</a>
+    <a href="index.html">Beranda</a>
     <a href="profil.html">Profil</a>
     <a href="layanan.html">Layanan</a>
     <div class="nav-dropdown" id="appDropdown">
@@ -64,7 +64,7 @@
         <a href="https://forms.gle/Us5L3Peh8N1L99iq7" target="_blank" rel="noopener"><i class="ti ti-book-2"></i> Buku Tamu</a>
       </div>
     </div>
-    <a href="galeri.html">Galeri</a>
+    <a href="galeri.html" class="active">Galeri</a>
     <a href="ppid.html">PPID</a>
     <a href="berita.html">Berita</a>
     <a href="index.html#pengumuman">Pengumuman</a>
@@ -116,117 +116,110 @@
 </section>
 
 <!--
-  HERO
-  Bagian pembuka website. Background gambar diatur dari CSS:
-  css/style.css pada class .hero.
+  GALERI KEGIATAN
+  Menampilkan dokumentasi kegiatan BPAD NTT yang terhubung
+  dengan akun Instagram resmi BPAD NTT.
 -->
-<section class="hero">
-  <div class="hero-slider" id="heroSlider">
-    <div class="hero-slide is-active" style="background-image:url('assets/hero2.png');"></div>
-    <div class="hero-slide" style="background-image:url('assets/hero3.png');"></div>
-    <div class="hero-slide" style="background-image:url('assets/hero4.png');"></div>
-    <div class="hero-slide" style="background-image:url('assets/hero5.png');"></div>
-  </div>
-  <div class="hero-overlay"></div>
-  <div class="hero-deco1"></div>
-  <div class="hero-deco2"></div>
-  <div class="hero-deco3"></div>
-  <div class="hero-inner">
-    <div class="hero-badge">
-      <img src="assets/ayobangunntt.png" alt="Ayo Bangun NTT">
-    </div>
-    <h2>Optimalisasi <span>Pendapatan Daerah</span><br>& Pengelolaan Aset</h2>
-    <p>Memberikan pelayanan prima dalam pengelolaan pendapatan daerah dan aset untuk mendukung pembangunan Nusa Tenggara Timur yang berkeadilan dan berkelanjutan.</p>
-    <div class="hero-btns">
-      <a href="layanan.html" class="btn-gold"><i class="ti ti-list-check"></i> Lihat Layanan</a>
-      <a href="profil.html" class="btn-ghost"><i class="ti ti-info-circle"></i> Tentang Kami</a>
-    </div>
-  </div>
-  <button class="hero-nav hero-prev" id="heroPrev" type="button" aria-label="Slide sebelumnya">
-    <i class="ti ti-chevron-left"></i>
-  </button>
-  <button class="hero-nav hero-next" id="heroNext" type="button" aria-label="Slide berikutnya">
-    <i class="ti ti-chevron-right"></i>
-  </button>
-  <div class="hero-dots" id="heroDots" aria-label="Pilih slide hero"></div>
-</section>
-
-<!--
-  PORTAL BERITA MODERN
-  Komponen modular setelah hero. Isi widget dibuat oleh
-  js/news-widget.js dari data contoh yang nantinya bisa diganti API.
--->
-<section class="nw-news-widget" id="portal-berita" aria-label="Portal Berita BPAD NTT">
-  <div class="nw-news-shell" id="newsWidgetRoot">
-    <div class="nw-skeleton nw-skeleton-hero"></div>
-    <div class="nw-skeleton-row">
-      <div class="nw-skeleton"></div>
-      <div class="nw-skeleton"></div>
-      <div class="nw-skeleton"></div>
-    </div>
-  </div>
-</section>
-
-<!--
-  STATS STRIP
-  Ringkasan angka penting yang tampil tepat setelah hero.
--->
-<div class="stats-strip">
-  <div class="stat-item">
-    <div class="stat-num">Rp 2,8T</div>
-    <div class="stat-label">Target PAD 2026</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num">12+</div>
-    <div class="stat-label">Jenis Pajak Daerah</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num">22</div>
-    <div class="stat-label">Kab/Kota Wilayah</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num">80%</div>
-    <div class="stat-label">Kepuasan Wajib Pajak</div>
-    <div class="stat-note">Berdasarkan Laporan SKM 2025</div>
-  </div>
-</div>
-
-<!--
-  QUICK LINKS
-  Shortcut ke bagian-bagian yang paling sering dibuka pengunjung.
--->
-<section class="quick-links">
-  <div class="quick-links-inner">
-    <a class="quick-link" href="layanan.html"><i class="ti ti-receipt-tax"></i> Layanan</a>
-    <a class="quick-link" href="ppid.html"><i class="ti ti-file-search"></i> PPID</a>
-    <a class="quick-link" href="profil.html"><i class="ti ti-map-2"></i> UPTD</a>
-    <a class="quick-link" href="berita.html"><i class="ti ti-news"></i> Berita</a>
-    <a class="quick-link" href="index.html#pengumuman"><i class="ti ti-bell"></i> Info</a>
-  </div>
-</section>
-
-<!--
-  PENGUMUMAN
-  Daftar pengumuman TIDAK ditulis langsung di sini.
-  Elemen #pengumumanList akan diisi otomatis dari
-  data/pengumuman.json dan data/agenda.json oleh file js/main.js.
--->
-<section class="section" id="pengumuman">
+<section class="section-alt gallery-page" id="galeri">
   <div class="section-hdr">
     <div class="section-hdr-left">
-      <div class="section-eyebrow"><i class="ti ti-bell"></i> Pengumuman</div>
-      <div class="section-title">Pengumuman Resmi & Agenda Kegiatan</div>
+      <div class="section-eyebrow"><i class="ti ti-photo"></i> Galeri Kegiatan</div>
+      <div class="section-title">Dokumentasi Kegiatan BPAD NTT</div>
     </div>
+    <a href="https://www.instagram.com/bpad_ntt/" target="_blank" rel="noopener" class="see-all">Lihat Instagram <i class="ti ti-arrow-up-right"></i></a>
   </div>
-  <div class="pgm-grid">
-    <div class="pgm-card">
-      <h3 class="pgm-card-title"><i class="ti ti-speakerphone"></i> Pengumuman Resmi</h3>
-      <ul class="pgm-list" id="pengumumanList"></ul>
-    </div>
-    <div class="pgm-card">
-      <h3 class="pgm-card-title"><i class="ti ti-calendar-event"></i> Agenda Kegiatan</h3>
-      <ul class="pgm-list" id="agendaList"></ul>
-    </div>
+
+  <div class="gallery-intro">
+    <p>Galeri ini menampilkan snapshot foto terbaru dari Instagram resmi BPAD NTT. Klik foto untuk membuka unggahan aslinya di Instagram.</p>
+  </div>
+
+  <div class="gallery-grid">
+    <a class="gallery-card" href="https://www.instagram.com/p/DYeKbN9ExgZ/" target="_blank" rel="noopener">
+      <img src="assets/instagram-01.jpg" alt="Dokumentasi kegiatan BPAD NTT" loading="lazy">
+      <div class="gallery-caption">
+        <span><i class="ti ti-brand-instagram"></i> 18 Mei 2026 · Foto</span>
+        <strong>Dokumentasi Kegiatan BPAD NTT</strong>
+      </div>
+    </a>
+    <a class="gallery-card" href="https://www.instagram.com/p/DYgqbQzEzoj/" target="_blank" rel="noopener">
+      <img src="assets/instagram-02.jpg" alt="Rakor Samsat NTT 2026" loading="lazy">
+      <div class="gallery-caption">
+        <span><i class="ti ti-brand-instagram"></i> 19 Mei 2026 · Foto</span>
+        <strong>Rakor Samsat NTT 2026: Kolaborasi dan Inovasi</strong>
+      </div>
+    </a>
+    <a class="gallery-card" href="https://www.instagram.com/p/DYezpNHE8ca/" target="_blank" rel="noopener">
+      <img src="assets/instagram-03.jpg" alt="Rapat internal BPAD NTT" loading="lazy">
+      <div class="gallery-caption">
+        <span><i class="ti ti-brand-instagram"></i> 18 Mei 2026 · Foto</span>
+        <strong>Rapat dan Arahan Internal BPAD NTT</strong>
+      </div>
+    </a>
+    <a class="gallery-card" href="https://www.instagram.com/p/DYeFeXbE3BV/" target="_blank" rel="noopener">
+      <img src="assets/instagram-04.jpg" alt="Agenda kegiatan BPAD NTT" loading="lazy">
+      <div class="gallery-caption">
+        <span><i class="ti ti-brand-instagram"></i> 18 Mei 2026 · Foto</span>
+        <strong>Agenda Kegiatan BPAD NTT</strong>
+      </div>
+    </a>
+    <a class="gallery-card" href="https://www.instagram.com/p/DYd94qPz0Dc/" target="_blank" rel="noopener">
+      <img src="assets/instagram-05.jpg" alt="Publikasi BPAD NTT" loading="lazy">
+      <div class="gallery-caption">
+        <span><i class="ti ti-brand-instagram"></i> 18 Mei 2026 · Foto</span>
+        <strong>Publikasi Resmi BPAD NTT</strong>
+      </div>
+    </a>
+    <a class="gallery-card" href="https://www.instagram.com/p/DYdiFe2kwZr/" target="_blank" rel="noopener">
+      <img src="assets/instagram-06.jpg" alt="Ucapan duka cita BPAD NTT" loading="lazy">
+      <div class="gallery-caption">
+        <span><i class="ti ti-brand-instagram"></i> 18 Mei 2026 · Foto</span>
+        <strong>Keluarga Besar BPAD NTT Berduka Cita</strong>
+      </div>
+    </a>
+    <a class="gallery-card" href="https://www.instagram.com/p/DYZVHfMExaT/" target="_blank" rel="noopener">
+      <img src="assets/instagram-07.jpg" alt="Samsat Keliling UPTD Kabupaten Kupang" loading="lazy">
+      <div class="gallery-caption">
+        <span><i class="ti ti-brand-instagram"></i> 16 Mei 2026 · Foto</span>
+        <strong>Samsat Keliling UPTD Kabupaten Kupang</strong>
+      </div>
+    </a>
+    <a class="gallery-card" href="https://www.instagram.com/p/DYZUyMrE4_s/" target="_blank" rel="noopener">
+      <img src="assets/instagram-08.jpg" alt="Rapat tindak lanjut optimalisasi PAD" loading="lazy">
+      <div class="gallery-caption">
+        <span><i class="ti ti-brand-instagram"></i> 16 Mei 2026 · Foto</span>
+        <strong>Rapat Tindak Lanjut Optimalisasi PAD</strong>
+      </div>
+    </a>
+    <a class="gallery-card" href="https://www.instagram.com/p/DYTbl8DzfHL/" target="_blank" rel="noopener">
+      <img src="assets/instagram-09.jpg" alt="Hari Kenaikan Yesus Kristus" loading="lazy">
+      <div class="gallery-caption">
+        <span><i class="ti ti-brand-instagram"></i> 14 Mei 2026 · Foto</span>
+        <strong>Selamat Memperingati Hari Kenaikan Yesus Kristus</strong>
+      </div>
+    </a>
+    <a class="gallery-card" href="https://www.instagram.com/p/DYN_vmVE8Yz/" target="_blank" rel="noopener">
+      <img src="assets/instagram-10.jpg" alt="Sosialisasi Pergub NTT Nomor 13 Tahun 2025" loading="lazy">
+      <div class="gallery-caption">
+        <span><i class="ti ti-brand-instagram"></i> 12 Mei 2026 · Foto</span>
+        <strong>Informasi Pergub NTT Nomor 13 Tahun 2025</strong>
+      </div>
+    </a>
+    <a class="gallery-card is-video" href="https://www.instagram.com/reel/DYHe563C4UJ/" target="_blank" rel="noopener">
+      <img src="assets/instagram-11.jpg" alt="Informasi pembayaran pajak kendaraan lewat SIGNAL" loading="lazy">
+      <div class="gallery-play"><i class="ti ti-player-play-filled"></i></div>
+      <div class="gallery-caption">
+        <span><i class="ti ti-brand-instagram"></i> 9 Mei 2026 · Reels</span>
+        <strong>Pembayaran Pajak Kendaraan Lewat SIGNAL</strong>
+      </div>
+    </a>
+    <a class="gallery-card is-video" href="https://www.instagram.com/reel/DYCReRcz-Ej/" target="_blank" rel="noopener">
+      <img src="assets/instagram-12.jpg" alt="Identifikasi dan penilaian aset di Dinas Kominfo NTT" loading="lazy">
+      <div class="gallery-play"><i class="ti ti-player-play-filled"></i></div>
+      <div class="gallery-caption">
+        <span><i class="ti ti-brand-instagram"></i> 7 Mei 2026 · Reels</span>
+        <strong>Identifikasi dan Penilaian Aset Dinas Kominfo NTT</strong>
+      </div>
+    </a>
   </div>
 </section>
 
@@ -331,7 +324,7 @@
 <!--
   SCRIPT UTAMA
   File ini mengatur menu mobile, dropdown Aplikasi,
-  dan membaca data JSON untuk PPID, Berita, dan Pengumuman.
+  dan membaca data JSON untuk konten halaman.
 -->
 <script src="js/main.js?v=20260511-2"></script>
 <script src="js/news-widget.js?v=20260511"></script>

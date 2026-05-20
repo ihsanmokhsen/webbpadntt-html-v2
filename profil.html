@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <!--
+    BAGIAN HEAD
+    Berisi metadata dasar halaman, judul tab browser, favicon,
+    font Google, icon Tabler, dan file CSS utama.
+  -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil – BPAD NTT</title>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="apple-touch-icon" href="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/news-widget.css">
+</head>
+<body>
+
+<!--
+  TOP BAR
+  Bar paling atas untuk informasi cepat seperti email,
+  jam layanan, dan alamat singkat.
+-->
+<div class="topbar">
+  <div class="topbar-left">
+    <span><i class="ti ti-mail"></i> bapenda@nttprov.go.id</span>
+  </div>
+  <div class="topbar-right">
+    <span><i class="ti ti-clock"></i> Senin – Jumat: 07.30 – 15.30 WITA</span>
+    <span><i class="ti ti-map-pin"></i> Jl. El Tari No.52, Oebobo, Kota Kupang</span>
+  </div>
+</div>
+
+<!--
+  NAVBAR / HEADBAR
+  Menu navigasi utama. Link dengan href="#nama-section" akan
+  melakukan scroll ke section yang punya id sesuai.
+-->
+<nav class="navbar" id="navbar">
+  <div class="logo-area">
+    <div class="logo-img"><img src="assets/logo.png" alt="Logo BPAD NTT"></div>
+    <div class="logo-text">
+      <h1>Badan Pendapatan & Aset Daerah</h1>
+      <p>Pemerintah Provinsi Nusa Tenggara Timur</p>
+    </div>
+  </div>
+  <div class="nav-links">
+    <!-- Menu desktop -->
+    <a href="index.html">Beranda</a>
+    <a href="profil.html" class="active">Profil</a>
+    <a href="layanan.html">Layanan</a>
+    <div class="nav-dropdown" id="appDropdown">
+      <button class="nav-drop-toggle" type="button" onclick="toggleAppMenu(event)">
+        Aplikasi <i class="ti ti-chevron-down"></i>
+      </button>
+      <div class="dropdown-menu" id="appMenu">
+        <a href="https://magangbpad.netlify.app/" target="_blank" rel="noopener"><i class="ti ti-briefcase"></i> Magang Hub</a>
+        <a href="https://play.google.com/store/apps/details?id=com.iwana.betantt&hl=id" target="_blank" rel="noopener"><i class="ti ti-apps"></i> Pro NTT</a>
+        <a href="https://research.ihsanmokhsen.com/kastau-tim-siber-landing.html" target="_blank" rel="noopener"><i class="ti ti-shield-lock"></i> Kastau Tim Siber</a>
+        <a href="https://forms.gle/z5ru8iL955ekdrmK7" target="_blank" rel="noopener"><i class="ti ti-message-2"></i> Kotak Saran (SKM)</a>
+        <a href="https://forms.gle/Us5L3Peh8N1L99iq7" target="_blank" rel="noopener"><i class="ti ti-book-2"></i> Buku Tamu</a>
+      </div>
+    </div>
+    <a href="galeri.html">Galeri</a>
+    <a href="ppid.html">PPID</a>
+    <a href="berita.html">Berita</a>
+    <a href="index.html#pengumuman">Pengumuman</a>
+    <form class="nav-search" id="navSearchForm" role="search" aria-label="Pencarian menu cepat">
+      <i class="ti ti-search"></i>
+      <input id="navSearchInput" type="search" placeholder="Cari menu..." autocomplete="off" aria-label="Cari menu">
+    </form>
+    <a href="index.html#kontak" class="nav-cta"><i class="ti ti-phone-call"></i> Hubungi Kami</a>
+  </div>
+  <!-- Tombol hamburger hanya tampil di layar kecil lewat CSS responsive. -->
+  <div class="hamburger" onclick="toggleMenu()"><i class="ti ti-menu-2"></i></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <!-- Menu mobile -->
+    <a href="index.html">Beranda</a>
+    <a href="profil.html">Profil</a>
+    <a href="layanan.html">Layanan</a>
+    <a href="https://magangbpad.netlify.app/" target="_blank" rel="noopener">Magang Hub</a>
+    <a href="https://play.google.com/store/apps/details?id=com.iwana.betantt&hl=id" target="_blank" rel="noopener">Pro NTT</a>
+    <a href="https://research.ihsanmokhsen.com/kastau-tim-siber-landing.html" target="_blank" rel="noopener">Kastau Tim Siber</a>
+    <a href="https://forms.gle/z5ru8iL955ekdrmK7" target="_blank" rel="noopener">Kotak Saran (SKM)</a>
+    <a href="https://forms.gle/Us5L3Peh8N1L99iq7" target="_blank" rel="noopener">Buku Tamu</a>
+    <a href="galeri.html">Galeri</a>
+    <a href="ppid.html">PPID</a>
+    <a href="berita.html">Berita</a>
+    <a href="index.html#pengumuman">Pengumuman</a>
+    <a href="index.html#kontak">Hubungi Kami</a>
+  </div>
+</nav>
+
+<!--
+  DATA PAD HARI INI
+  Komponen ringkas sebelum hero. Nilai realisasi masih placeholder
+  agar aman sampai tersedia sumber data resmi/API/database.
+-->
+<section class="pad-today" aria-label="Data Pendapatan Asli Daerah hari ini">
+  <div class="pad-today-inner">
+    <div class="pad-today-head">
+      <span class="pad-live-dot"></span>
+      <strong>PAD Hari Ini</strong>
+    </div>
+    <div class="pad-today-line">
+      <span>Realisasi: <strong>Rp --</strong></span>
+      <span>Target 2026: <strong>Rp 2,8T</strong></span>
+      <span>Realisasi: <strong>--%</strong></span>
+      <span id="padUpdateDate">Update hari ini</span>
+      <span class="pad-status">Menunggu data resmi</span>
+    </div>
+  </div>
+</section>
+
+<!--
+  PROFIL: VISI MISI
+  Bagian awal profil instansi.
+-->
+<section class="section-alt" id="profil">
+  <div class="section-hdr">
+    <div class="section-hdr-left">
+      <div class="section-eyebrow"><i class="ti ti-target"></i> Profil Instansi</div>
+      <div class="section-title">Visi & Misi BPAD</div>
+    </div>
+  </div>
+  <div class="visi-grid">
+    <div class="visi-card featured">
+      <div class="visi-label"><i class="ti ti-eye"></i> Visi</div>
+      <div class="visi-text">"Terwujudnya Pengelolaan Pendapatan dan Aset Daerah yang Profesional, Transparan, dan Akuntabel demi Mendukung Pembangunan NTT yang Sejahtera."</div>
+    </div>
+    <div class="visi-card">
+      <div class="visi-label"><i class="ti ti-list-check"></i> Misi</div>
+      <ul class="misi-list">
+        <li><i class="ti ti-check"></i> Meningkatkan kapasitas dan profesionalisme sumber daya aparatur</li>
+        <li><i class="ti ti-check"></i> Mengoptimalkan pengelolaan pendapatan daerah secara akuntabel</li>
+        <li><i class="ti ti-check"></i> Melaksanakan tertib administrasi dan inventarisasi aset daerah</li>
+        <li><i class="ti ti-check"></i> Mengembangkan sistem informasi berbasis teknologi modern</li>
+        <li><i class="ti ti-check"></i> Meningkatkan pelayanan prima kepada masyarakat dan wajib pajak</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!--
+  PROFIL: TUGAS, FUNGSI, DAN STRUKTUR
+  Konten profil yang lebih panjang. Bagian ini masih statis
+  karena jarang berubah.
+-->
+<section class="section profil-detail">
+  <div class="section-hdr">
+    <div class="section-hdr-left">
+      <div class="section-eyebrow"><i class="ti ti-sitemap"></i> Organisasi</div>
+      <div class="section-title">Tugas, Fungsi, dan Struktur Organisasi</div>
+    </div>
+  </div>
+
+  <div class="profil-note">
+    Struktur organisasi Badan Pendapatan dan Aset Daerah Provinsi Nusa Tenggara Timur ditetapkan berdasarkan Peraturan Gubernur Provinsi Nusa Tenggara Timur Nomor 96 Tahun 2023 tentang Kedudukan, Susunan Organisasi, Tugas dan Fungsi serta Tata Kerja Badan Pendapatan dan Aset Daerah Provinsi Nusa Tenggara Timur.
+  </div>
+
+  <div class="detail-grid">
+    <div class="detail-card primary">
+      <div class="detail-label">A. Tugas Pokok</div>
+      <p>Badan Pendapatan dan Aset Daerah mempunyai tugas membantu Gubernur dalam melaksanakan fungsi penunjang urusan pemerintahan di bidang pendapatan dan aset daerah yang menjadi kewenangan daerah.</p>
+    </div>
+    <div class="detail-card">
+      <div class="detail-label">B. Fungsi</div>
+      <ul class="detail-list">
+        <li>Penyusunan kebijakan teknis di bidang pendapatan dan aset daerah.</li>
+        <li>Pelaksanaan dukungan teknis di bidang pendapatan dan aset daerah.</li>
+        <li>Pemantauan, evaluasi, dan pelaporan pelaksanaan kegiatan pendapatan dan aset daerah.</li>
+        <li>Pembinaan teknis penyelenggaraan fungsi penunjang urusan pemerintahan daerah di bidang pendapatan dan aset daerah.</li>
+        <li>Pelaksanaan fungsi lain yang diberikan oleh Gubernur sesuai dengan tugas dan fungsinya.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="struktur-wrap">
+    <div class="section-title small-title">C. Struktur Organisasi</div>
+    <div class="struktur-grid">
+      <div class="detail-card">
+        <div class="detail-label">1. Unsur Pimpinan</div>
+        <h3>Kepala Badan</h3>
+        <p>Merumuskan program kerja Badan Pendapatan dan Aset Daerah yang mencakup kesekretariatan, pajak dan retribusi daerah, pengelolaan kekayaan daerah yang dipisahkan, pendapatan asli daerah lainnya yang sah, dana perimbangan, analisa kebutuhan dan penatausahaan aset, serta pemanfaatan, pemindahtanganan, dan pengamanan aset.</p>
+      </div>
+      <div class="detail-card">
+        <div class="detail-label">2. Unsur Penunjang Pimpinan</div>
+        <h3>Sekretariat</h3>
+        <ul class="detail-list">
+          <li>Sekretaris merencanakan, mengendalikan, dan mengevaluasi administrasi program, keuangan, kepegawaian, dan umum.</li>
+          <li>Sub Bagian Keuangan melaksanakan pengelolaan keuangan secara transparan dan akuntabel.</li>
+          <li>Sub Bagian Kepegawaian dan Umum mengelola administrasi kepegawaian, perlengkapan, tata usaha, dan urusan rumah tangga kantor.</li>
+        </ul>
+      </div>
+      <div class="detail-card">
+        <div class="detail-label">3. Unsur Pelaksana Teknis</div>
+        <h3>Bidang</h3>
+        <ul class="detail-list">
+          <li>Bidang Pendapatan I mengelola PKB, BBNKB, PBBKB, dan Pajak Rokok.</li>
+          <li>Bidang Pendapatan II mengelola retribusi daerah, kekayaan daerah, dana perimbangan, dan pendapatan daerah lainnya yang sah.</li>
+          <li>Bidang Analisa Kebutuhan dan Penatausahaan Aset mengelola analisa kebutuhan, pengadaan, penatausahaan, penilaian, dan pencatatan aset daerah.</li>
+          <li>Bidang Pemanfaatan, Pemindahtanganan, dan Pengamanan Aset mengelola pemanfaatan, pemindahtanganan, penghapusan, pengamanan, dan sengketa aset.</li>
+        </ul>
+      </div>
+      <div class="detail-card">
+        <div class="detail-label">4. UPTD</div>
+        <h3>Unit Pelaksana Teknis Daerah</h3>
+        <p>UPTD BPAD tersebar di 22 kabupaten/kota di Provinsi Nusa Tenggara Timur dengan tugas melaksanakan pemungutan pajak daerah, mengelola administrasi perpajakan daerah, serta melakukan verifikasi dan penagihan pajak.</p>
+        <p>Struktur UPTD terdiri dari Kepala UPTD, Sub Bagian Tata Usaha, Seksi Penetapan dan Penagihan, serta Seksi Verifikasi.</p>
+      </div>
+      <div class="detail-card">
+        <div class="detail-label">5. Kelompok Jabatan Fungsional</div>
+        <h3>Tenaga Profesional</h3>
+        <ul class="detail-list">
+          <li>Analis Perencana Ahli Muda.</li>
+          <li>Penilai Pemerintah Ahli Muda.</li>
+          <li>Analis Keuangan Pusat dan Daerah Ahli Muda.</li>
+          <li>Analis Kebijakan Ahli Muda.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="history-grid">
+    <div class="detail-card">
+      <div class="detail-label">Riwayat Pimpinan</div>
+      <h3>Kepala Dinas dari Tahun ke Tahun</h3>
+      <ol class="history-list">
+        <li>Piet A Tallo - Kepala Dinas Penda Tk.I NTT (15-03-1974 s/d 12-09-1983)</li>
+        <li>Drs. Joachim Reo (1983-1988)</li>
+        <li>Alo Jong Joko (1988-1993)</li>
+        <li>Joachim Reo (1993-1999)</li>
+        <li>Drs. Gaspar Parang Ehok (1999-2002)</li>
+        <li>Drs. Alex Babies (2002-2007)</li>
+        <li>L O Wila Huky (2007-2008)</li>
+        <li>Plt. Welly Katipana (2008, masa transisi)</li>
+        <li>Frans Salem (2008-2010)</li>
+        <li>Emanuel Kara (2010-2014)</li>
+        <li>Obaldus Toda - Dispenda (2014-2017)</li>
+        <li>Hali Lanan Elias - BPPKAD (2017-2019)</li>
+        <li>Zet Libing - BPAD (2019-2021)</li>
+        <li>Alexon Lumba - BPAD (2022-2026)</li>
+        <li>Johny Ericson Ataupah, SP. MM - BPAD (2026-sekarang)</li>
+      </ol>
+    </div>
+    <div class="detail-card">
+      <div class="detail-label">Sebaran Layanan</div>
+      <h3>UPTD di NTT (Kabupaten/Kota)</h3>
+      <div class="uptd-table-wrap">
+        <table class="uptd-table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>UPTD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>UPTD Pendapatan Daerah Wilayah Kota Kupang</td></tr>
+            <tr><td>2</td><td>UPTD Pendapatan Daerah Wilayah Kab. Kupang</td></tr>
+            <tr><td>3</td><td>UPTD Pendapatan Daerah Wilayah Kab. Timor Tengah Selatan</td></tr>
+            <tr><td>4</td><td>UPTD Pendapatan Daerah Wilayah Kab. Timor Tengah Utara</td></tr>
+            <tr><td>5</td><td>UPTD Pendapatan Daerah Wilayah Kab. Belu</td></tr>
+            <tr><td>6</td><td>UPTD Pendapatan Daerah Wilayah Kab. Rote Ndao</td></tr>
+            <tr><td>7</td><td>UPTD Pendapatan Daerah Wilayah Kab. Flores Timur</td></tr>
+            <tr><td>8</td><td>UPTD Pendapatan Daerah Wilayah Kab. Lembata</td></tr>
+            <tr><td>9</td><td>UPTD Pendapatan Daerah Wilayah Kab. Sikka</td></tr>
+            <tr><td>10</td><td>UPTD Pendapatan Daerah Wilayah Kab. Ende</td></tr>
+            <tr class="uptd-extra-row"><td>11</td><td>UPTD Pendapatan Daerah Wilayah Kab. Nagekeo</td></tr>
+            <tr class="uptd-extra-row"><td>12</td><td>UPTD Pendapatan Daerah Wilayah Kab. Ngada</td></tr>
+            <tr class="uptd-extra-row"><td>13</td><td>UPTD Pendapatan Daerah Wilayah Kab. Manggarai Timur</td></tr>
+            <tr class="uptd-extra-row"><td>14</td><td>UPTD Pendapatan Daerah Wilayah Kab. Manggarai Barat</td></tr>
+            <tr class="uptd-extra-row"><td>15</td><td>UPTD Pendapatan Daerah Wilayah Kab. Manggarai</td></tr>
+            <tr class="uptd-extra-row"><td>16</td><td>UPTD Pendapatan Daerah Wilayah Kab. Sumba Timur</td></tr>
+            <tr class="uptd-extra-row"><td>17</td><td>UPTD Pendapatan Daerah Wilayah Kab. Sumba Tengah</td></tr>
+            <tr class="uptd-extra-row"><td>18</td><td>UPTD Pendapatan Daerah Wilayah Kab. Sumba Barat</td></tr>
+            <tr class="uptd-extra-row"><td>19</td><td>UPTD Pendapatan Daerah Wilayah Kab. Sumba Barat Daya</td></tr>
+            <tr class="uptd-extra-row"><td>20</td><td>UPTD Pendapatan Daerah Wilayah Kab. Alor</td></tr>
+            <tr class="uptd-extra-row"><td>21</td><td>UPTD Pendapatan Daerah Wilayah Kab. Malaka</td></tr>
+            <tr class="uptd-extra-row"><td>22</td><td>UPTD Pendapatan Daerah Wilayah Kab. Sabu Raijua</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <button class="uptd-toggle" type="button" onclick="toggleUptdRows(this)" aria-expanded="false">
+        Lihat semua UPTD
+      </button>
+    </div>
+  </div>
+</section>
+
+<!--
+  INFO / KONTAK
+  Berisi alamat lengkap, kontak, sosial media, jam layanan,
+  dan peta lokasi Google Maps.
+-->
+<div class="info-bar" id="kontak">
+  <div class="info-block">
+    <h3><i class="ti ti-map-pin"></i> Alamat Kantor</h3>
+    <p>
+      Jl. El Tari No.52, Oebobo<br>
+      Kec. Oebobo, Kota Kupang<br>
+      Nusa Tenggara Timur<br>
+      85111 — Indonesia
+    </p>
+  </div>
+  <div class="info-block">
+    <h3><i class="ti ti-headset"></i> Hubungi Kami</h3>
+    <p>
+      <a href="mailto:bapenda@nttprov.go.id">bapenda@nttprov.go.id</a>
+    </p>
+    <div class="sosmed">
+      <a href="#" title="Facebook"><i class="ti ti-brand-facebook"></i></a>
+      <a href="https://www.instagram.com/bpad_ntt/" title="Instagram" target="_blank" rel="noopener"><i class="ti ti-brand-instagram"></i></a>
+      <a href="#" title="YouTube"><i class="ti ti-brand-youtube"></i></a>
+      <a href="#" title="Twitter/X"><i class="ti ti-brand-x"></i></a>
+    </div>
+  </div>
+  <div class="info-block">
+    <h3><i class="ti ti-clock"></i> Jam Pelayanan</h3>
+    <p>
+      Senin – Kamis:<br>07.30 – 15.30 WITA<br><br>
+      Jumat:<br>07.30 – 11.30 WITA
+    </p>
+  </div>
+  <div class="map-block">
+    <iframe
+      title="Peta Lokasi BPAD NTT"
+      src="https://www.google.com/maps?q=Jl.%20El%20Tari%20No.52%2C%20Oebobo%2C%20Kec.%20Oebobo%2C%20Kota%20Kupang%2C%20Nusa%20Tenggara%20Timur%2085111&output=embed"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+    <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Jl.%20El%20Tari%20No.52%2C%20Oebobo%2C%20Kec.%20Oebobo%2C%20Kota%20Kupang%2C%20Nusa%20Tenggara%20Timur%2085111" target="_blank" rel="noopener">
+      <i class="ti ti-map-2"></i> Buka di Google Maps
+    </a>
+  </div>
+</div>
+
+<!--
+  FOOTER
+  Bagian paling bawah website. Berisi navigasi ulang,
+  aplikasi, kontak ringkas, dan copyright.
+-->
+<footer>
+  <div class="footer-main">
+    <div class="footer-col">
+      <div class="footer-brand">
+        <img src="assets/logo.png" alt="Logo BPAD NTT">
+        <div>
+          <h4>BPAD NTT</h4>
+          <p>Badan Pendapatan dan Aset Daerah Provinsi Nusa Tenggara Timur.</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigasi</h4>
+      <a href="profil.html">Profil</a>
+      <a href="layanan.html">Layanan</a>
+      <a href="galeri.html">Galeri</a>
+      <a href="ppid.html">PPID</a>
+      <a href="berita.html">Berita</a>
+      <a href="index.html#pengumuman">Pengumuman</a>
+    </div>
+    <div class="footer-col">
+      <h4>Aplikasi</h4>
+      <a href="https://magangbpad.netlify.app/" target="_blank" rel="noopener">Magang Hub</a>
+      <a href="https://play.google.com/store/apps/details?id=com.iwana.betantt&hl=id" target="_blank" rel="noopener">Pro NTT</a>
+      <a href="https://research.ihsanmokhsen.com/kastau-tim-siber-landing.html" target="_blank" rel="noopener">Kastau Tim Siber</a>
+      <a href="https://forms.gle/z5ru8iL955ekdrmK7" target="_blank" rel="noopener">Kotak Saran (SKM)</a>
+      <a href="https://forms.gle/Us5L3Peh8N1L99iq7" target="_blank" rel="noopener">Buku Tamu</a>
+      <a href="https://www.instagram.com/bpad_ntt/" target="_blank" rel="noopener">Instagram BPAD NTT</a>
+    </div>
+    <div class="footer-col">
+      <h4>Kontak</h4>
+      <p>Jl. El Tari No.52, Oebobo, Kec. Oebobo, Kota Kupang, NTT 85111</p>
+      <p>bapenda@nttprov.go.id</p>
+      <p>Senin - Jumat, 07.30 - 15.30 WITA</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Badan Pendapatan dan Aset Daerah Provinsi Nusa Tenggara Timur</p>
+    <p>
+      <a href="#">Kebijakan Privasi</a> &nbsp;·&nbsp;
+      <a href="#">Aksesibilitas</a> &nbsp;·&nbsp;
+      <a href="#">Peta Situs</a>
+    </p>
+  </div>
+</footer>
+
+<!--
+  SCRIPT UTAMA
+  File ini mengatur menu mobile, dropdown Aplikasi,
+  dan membaca data JSON untuk konten halaman.
+-->
+<script src="js/main.js?v=20260511-2"></script>
+<script src="js/news-widget.js?v=20260511"></script>
+
+</body>
+</html>
