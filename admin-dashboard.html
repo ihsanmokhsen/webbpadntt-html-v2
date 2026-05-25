@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Admin BPAD NTT</title>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <link rel="stylesheet" href="css/admin.css?v=7">
+</head>
+<body class="dashboard-mode">
+  <main class="admin-shell">
+    <section class="config-alert" id="configAlert" hidden>
+      <i class="ti ti-alert-triangle"></i>
+      <div>
+        <h2>Konfigurasi Supabase belum aktif</h2>
+        <p>Salin <code>js/supabase-config.example.js</code> menjadi <code>js/supabase-config.js</code>, lalu isi Project URL dan anon public key.</p>
+      </div>
+    </section>
+
+    <section class="dashboard" id="dashboardPanel" hidden>
+      <div class="dashboard-top">
+        <div>
+          <span class="eyebrow">Database Mode</span>
+          <h2>Kelola Konten Website</h2>
+          <p id="sessionInfo">Sesi admin aktif.</p>
+        </div>
+        <div class="dashboard-actions">
+          <a class="ghost-btn" href="index.html"><i class="ti ti-home"></i> Website</a>
+          <button class="ghost-btn" id="logoutBtn" type="button"><i class="ti ti-logout"></i> Keluar</button>
+        </div>
+      </div>
+
+      <div class="dashboard-tabs" aria-label="Menu dashboard admin">
+        <button class="tab-btn is-active" id="contentTabBtn" type="button">
+          <i class="ti ti-news"></i> Konten
+        </button>
+        <button class="tab-btn" id="settingsTabBtn" type="button">
+          <i class="ti ti-settings"></i> Web Setting
+        </button>
+      </div>
+
+      <div class="admin-section" id="contentSection">
+        <div class="admin-grid">
+        <section class="admin-card editor-card">
+          <div class="card-header compact">
+            <span class="eyebrow" id="editorMode">Konten Baru</span>
+            <h3>Form Konten</h3>
+          </div>
+
+          <form class="admin-form" id="postForm">
+            <input type="hidden" id="postId">
+
+            <div class="form-row">
+              <label>
+                <span>Tipe</span>
+                <select id="postType" required>
+                  <option value="berita">Berita</option>
+                  <option value="pengumuman">Pengumuman</option>
+                  <option value="agenda">Agenda</option>
+                </select>
+              </label>
+              <label>
+                <span>Tanggal Publikasi</span>
+                <input type="datetime-local" id="postPublishedAt">
+              </label>
+            </div>
+
+            <label>
+              <span>Judul</span>
+              <input type="text" id="postTitle" required>
+            </label>
+
+            <label>
+              <span>Slug URL</span>
+              <input type="text" id="postSlug" placeholder="otomatis dari judul jika kosong">
+            </label>
+
+            <label>
+              <span>Kategori</span>
+              <input type="text" id="postCategory" placeholder="Contoh: Berita, Agenda, Layanan">
+            </label>
+
+            <div class="admin-field">
+              <span class="admin-field-label">Gambar Cover</span>
+              <input type="text" id="postCoverImage" placeholder="Tempel URL gambar atau upload file di bawah">
+              <input type="file" id="postCoverFile" accept="image/*">
+              <div class="cover-preview" id="coverPreview" hidden>
+                <img id="coverPreviewImage" alt="Preview gambar cover">
+                <button class="soft-btn compact-btn" id="clearCoverBtn" type="button"><i class="ti ti-x"></i> Hapus gambar</button>
+              </div>
+              <p class="field-help">Upload gambar akan dikompres otomatis agar tetap ringan. Untuk tahap ini gambar disimpan langsung di database.</p>
+            </div>
+
+            <label>
+              <span>Ringkasan</span>
+              <textarea id="postSummary" rows="3"></textarea>
+            </label>
+
+            <label>
+              <span>Isi Konten</span>
+              <textarea id="postContent" rows="8"></textarea>
+            </label>
+
+            <div class="button-row">
+              <button class="primary-btn" type="submit"><i class="ti ti-device-floppy"></i> Simpan</button>
+              <button class="soft-btn" id="resetFormBtn" type="button"><i class="ti ti-plus"></i> Konten Baru</button>
+              <button class="danger-btn" id="deletePostBtn" type="button" hidden><i class="ti ti-trash"></i> Hapus</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="admin-card list-card">
+          <div class="list-toolbar">
+            <div>
+              <span class="eyebrow">Daftar Konten</span>
+              <h3>Konten Tersimpan</h3>
+            </div>
+            <select id="filterType" aria-label="Filter tipe konten">
+              <option value="">Semua</option>
+              <option value="berita">Berita</option>
+              <option value="pengumuman">Pengumuman</option>
+              <option value="agenda">Agenda</option>
+            </select>
+          </div>
+
+          <div class="post-list" id="postList">
+            <div class="empty-state">Memuat konten...</div>
+          </div>
+        </section>
+        </div>
+      </div>
+
+      <div class="admin-section" id="settingsSection" hidden>
+        <div class="admin-grid settings-grid">
+          <section class="admin-card editor-card">
+            <div class="card-header compact">
+              <span class="eyebrow" id="settingMode">Pilih Setting</span>
+              <h3>Form Web Setting</h3>
+              <p>Ubah nilai setting penting website tanpa menyentuh kode HTML.</p>
+            </div>
+
+            <form class="admin-form" id="settingForm">
+              <label>
+                <span>Key</span>
+                <input type="text" id="settingKey" readonly placeholder="Pilih setting dari daftar">
+              </label>
+
+              <div class="form-row">
+                <label>
+                  <span>Group</span>
+                  <input type="text" id="settingGroup" placeholder="Contoh: site, office, ppid">
+                </label>
+                <label class="checkbox-field">
+                  <input type="checkbox" id="settingPublic" checked>
+                  <span>Tampil untuk publik</span>
+                </label>
+              </div>
+
+              <label>
+                <span>Value</span>
+                <textarea id="settingValue" rows="8" placeholder="Isi nilai setting di sini"></textarea>
+              </label>
+
+              <div class="button-row">
+                <button class="primary-btn" id="saveSettingBtn" type="submit">
+                  <i class="ti ti-device-floppy"></i> Simpan Setting
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <section class="admin-card list-card">
+            <div class="list-toolbar">
+              <div>
+                <span class="eyebrow">Web Setting</span>
+                <h3>Setting Tersimpan</h3>
+              </div>
+              <select id="filterSettingGroup" aria-label="Filter group setting">
+                <option value="">Semua</option>
+              </select>
+            </div>
+
+            <div class="settings-help">
+              Setting ini sudah masuk database. Tahap berikutnya, halaman publik bisa dibuat membaca value ini secara otomatis.
+            </div>
+
+            <div class="post-list settings-list" id="settingList">
+              <div class="empty-state">Memuat setting...</div>
+            </div>
+          </section>
+        </div>
+
+        <section class="settings-guide" aria-label="Panduan Web Setting">
+          <h4>Panduan Singkat Web Setting</h4>
+          <p>Bagian ini dipakai untuk mengubah informasi website tanpa menyentuh file kode.</p>
+          <ul>
+            <li><strong>Key</strong>: nama pengaturan unik, contoh <code>office_address</code> atau <code>ig_url</code>.</li>
+            <li><strong>Group</strong>: kelompok setting agar mudah dilacak, contoh <code>site</code>, <code>office</code>, <code>ppid</code>, <code>social</code>.</li>
+            <li><strong>Tampil untuk publik</strong>: aktifkan jika data boleh dibaca halaman website.</li>
+            <li><strong>Value</strong>: isi nilai pengaturan, bisa teks, angka, atau tautan.</li>
+            <li><strong>Alur cepat</strong>: pilih setting di tabel kanan, ubah di form kiri, lalu klik <em>Simpan Setting</em>.</li>
+          </ul>
+        </section>
+      </div>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  </main>
+
+  <script src="js/supabase-config.js?v=3"></script>
+  <script src="js/admin-core.js?v=7"></script>
+  <script src="js/admin-dashboard.js?v=7"></script>
+</body>
+</html>

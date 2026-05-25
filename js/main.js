@@ -320,6 +320,187 @@ function getThemeClass(prefix, theme, fallback = 'blue') {
   return `${prefix}${theme || fallback}`;
 }
 
+function isFrontPageContext() {
+  const path = String(window.location.pathname || '').toLowerCase();
+  return path.endsWith('/index.html') || path.endsWith('/') || path === '';
+}
+
+function getNewsDetailText(item) {
+  if (!item || typeof item !== 'object') return '';
+
+  const primaryText = [
+    item.isi,
+    item.content,
+    item.detail,
+    item.body
+  ].find((value) => String(value || '').trim().length > 0);
+
+  if (primaryText) {
+    return String(primaryText).trim();
+  }
+
+  const fallbackText = String(item.ringkasan || item.summary || '').trim();
+  if (fallbackText) return fallbackText;
+
+  return 'Informasi detail berita belum tersedia. Silakan cek pembaruan berikutnya dari BPAD NTT.';
+}
+
+function canOpenNewsDetail(item) {
+  return Boolean(item && String(item.judul || item.title || '').trim());
+}
+
+function getNewsImageSource(item) {
+  const source = String(item?.gambar || item?.image || item?.cover_image || '').trim();
+  if (!source) return 'assets/logo.png';
+  if (source.startsWith('data:image/')) return source;
+  if (/^(https?:)?\/\//i.test(source)) return source;
+  if (source.startsWith('/') || source.startsWith('./') || source.startsWith('../')) return source;
+
+  // Izinkan path lokal seperti assets/berita.jpg, tetapi tolak protocol berbahaya.
+  if (/^[a-z][a-z0-9+.-]*:/i.test(source)) return 'assets/logo.png';
+  return source;
+}
+
+function refreshBodyScrollLock() {
+  const hasOpenModal = Boolean(document.querySelector(
+    '.news-detail-modal.open, .ppid-link-modal.open, .gallery-modal.open, .uptd-modal.open'
+  ));
+  document.body.classList.toggle('modal-open', hasOpenModal);
+}
+
+function buildNewsDetailModal() {
+  const modal = document.createElement('div');
+  modal.className = 'news-detail-modal';
+  modal.id = 'newsDetailModal';
+  modal.setAttribute('aria-hidden', 'true');
+
+  const card = document.createElement('div');
+  card.className = 'news-detail-modal-card';
+  card.setAttribute('role', 'dialog');
+  card.setAttribute('aria-modal', 'true');
+  card.setAttribute('aria-labelledby', 'newsDetailModalTitle');
+
+  const head = document.createElement('div');
+  head.className = 'news-detail-head';
+
+  const titleWrap = document.createElement('div');
+  const label = document.createElement('div');
+  label.className = 'news-detail-label';
+  label.textContent = 'Detail Berita';
+
+  const title = document.createElement('h3');
+  title.id = 'newsDetailModalTitle';
+
+  const meta = document.createElement('div');
+  meta.className = 'news-detail-meta';
+  meta.id = 'newsDetailModalMeta';
+
+  const closeButton = document.createElement('button');
+  closeButton.className = 'news-detail-close';
+  closeButton.type = 'button';
+  closeButton.setAttribute('aria-label', 'Tutup popup berita');
+  closeButton.innerHTML = '<i class="ti ti-x"></i>';
+  closeButton.addEventListener('click', closeNewsDetailModal);
+
+  titleWrap.append(label, title, meta);
+  head.append(titleWrap, closeButton);
+
+  const content = document.createElement('div');
+  content.className = 'news-detail-content';
+
+  const text = document.createElement('div');
+  text.className = 'news-detail-text';
+  text.id = 'newsDetailModalContent';
+
+  const imageWrap = document.createElement('div');
+  imageWrap.className = 'news-detail-image-wrap';
+  const image = document.createElement('img');
+  image.id = 'newsDetailModalImage';
+  image.alt = 'Gambar berita';
+  image.loading = 'lazy';
+  imageWrap.appendChild(image);
+
+  content.append(text, imageWrap);
+  card.append(head, content);
+  modal.append(card);
+  document.body.appendChild(modal);
+
+  modal.addEventListener('click', (event) => {
+    if (event.target === modal) closeNewsDetailModal();
+  });
+
+  return modal;
+}
+
+function openNewsDetailModal(item) {
+  if (!canOpenNewsDetail(item)) return false;
+
+  const modal = document.getElementById('newsDetailModal') || buildNewsDetailModal();
+  const title = modal.querySelector('#newsDetailModalTitle');
+  const meta = modal.querySelector('#newsDetailModalMeta');
+  const body = modal.querySelector('#newsDetailModalContent');
+  const image = modal.querySelector('#newsDetailModalImage');
+  const detailText = getNewsDetailText(item);
+
+  title.textContent = item.judul || item.title || 'Berita BPAD';
+  const dateValue = item.tanggal || item.date || '';
+
+  meta.textContent = [
+    item.kategori || item.category || 'Berita',
+    dateValue ? formatTanggal(dateValue) : ''
+  ].filter(Boolean).join(' · ');
+  body.textContent = detailText;
+  image.src = getNewsImageSource(item);
+  image.alt = title.textContent || 'Gambar berita';
+
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
+  refreshBodyScrollLock();
+
+  return true;
+}
+
+function closeNewsDetailModal() {
+  const modal = document.getElementById('newsDetailModal');
+  if (!modal) return;
+
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
+  refreshBodyScrollLock();
+}
+
+function bindBeritaCardDetailPopup(items) {
+  const cards = document.querySelectorAll('#beritaGrid .berita-card');
+  if (!cards.length) return;
+
+  cards.forEach((card, index) => {
+    const item = items[index];
+    const canOpen = isFrontPageContext() && canOpenNewsDetail(item);
+
+    card.classList.toggle('has-detail', canOpen);
+    card.classList.toggle('no-detail', !canOpen);
+    card.tabIndex = canOpen ? 0 : -1;
+
+    if (!canOpen) return;
+
+    const openDetail = () => openNewsDetailModal(item);
+    card.addEventListener('click', openDetail);
+    card.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openDetail();
+      }
+    });
+  });
+}
+
+window.BPADNewsModal = {
+  canOpen: canOpenNewsDetail,
+  open: openNewsDetailModal,
+  close: closeNewsDetailModal,
+  getText: getNewsDetailText
+};
+
 // =========================================================
 // 7. Render daftar berita
 // =========================================================
@@ -343,6 +524,7 @@ function renderBerita(items) {
     </div>
   `).join('');
 
+  bindBeritaCardDetailPopup(items);
   highlightBeritaFromUrl();
 }
 
@@ -420,20 +602,62 @@ async function hydrateContent() {
   renderAgenda(FALLBACK_DATA.agenda);
   renderPpid(FALLBACK_DATA.ppid);
 
+  let hasDbBerita = false;
+  let hasDbPengumuman = false;
+  let hasDbAgenda = false;
+
+  if (window.BPADPublicData?.enabled) {
+    try {
+      const beritaDb = await window.BPADPublicData.getBerita();
+      if (beritaDb?.length) {
+        renderBerita(beritaDb);
+        hasDbBerita = true;
+      }
+    } catch (error) {
+      console.warn(error);
+    }
+
+    try {
+      const pengumumanDb = await window.BPADPublicData.getPengumuman();
+      if (pengumumanDb?.length) {
+        renderPengumuman(pengumumanDb);
+        hasDbPengumuman = true;
+      }
+    } catch (error) {
+      console.warn(error);
+    }
+
+    try {
+      const agendaDb = await window.BPADPublicData.getAgenda();
+      if (agendaDb?.length) {
+        renderAgenda(agendaDb);
+        hasDbAgenda = true;
+      }
+    } catch (error) {
+      console.warn(error);
+    }
+  }
+
   try {
-    renderBerita(await loadJson(DATA_FILES.berita));
+    if (!hasDbBerita) {
+      renderBerita(await loadJson(DATA_FILES.berita));
+    }
   } catch (error) {
     console.warn(error);
   }
 
   try {
-    renderPengumuman(await loadJson(DATA_FILES.pengumuman));
+    if (!hasDbPengumuman) {
+      renderPengumuman(await loadJson(DATA_FILES.pengumuman));
+    }
   } catch (error) {
     console.warn(error);
   }
 
   try {
-    renderAgenda(await loadJson(DATA_FILES.agenda));
+    if (!hasDbAgenda) {
+      renderAgenda(await loadJson(DATA_FILES.agenda));
+    }
   } catch (error) {
     console.warn(error);
   }
@@ -522,7 +746,7 @@ function openPpidLinkModal(link) {
 
   modal.classList.add('open');
   modal.setAttribute('aria-hidden', 'false');
-  document.body.classList.add('modal-open');
+  refreshBodyScrollLock();
 }
 
 function closePpidLinkModal() {
@@ -531,7 +755,7 @@ function closePpidLinkModal() {
 
   modal.classList.remove('open');
   modal.setAttribute('aria-hidden', 'true');
-  document.body.classList.remove('modal-open');
+  refreshBodyScrollLock();
 }
 
 document.addEventListener('click', (event) => {
@@ -614,7 +838,7 @@ function openGalleryModal() {
   document.getElementById('appDropdown')?.classList.remove('open');
   modal.classList.add('open');
   modal.setAttribute('aria-hidden', 'false');
-  document.body.classList.add('modal-open');
+  refreshBodyScrollLock();
 }
 
 function closeGalleryModal() {
@@ -623,7 +847,7 @@ function closeGalleryModal() {
 
   modal.classList.remove('open');
   modal.setAttribute('aria-hidden', 'true');
-  document.body.classList.remove('modal-open');
+  refreshBodyScrollLock();
 }
 
 // =========================================================
@@ -716,7 +940,7 @@ function openUptdModal(key) {
 
   modal.classList.add('open');
   modal.setAttribute('aria-hidden', 'false');
-  document.body.classList.add('modal-open');
+  refreshBodyScrollLock();
 }
 
 function closeUptdModal() {
@@ -725,7 +949,7 @@ function closeUptdModal() {
 
   modal.classList.remove('open');
   modal.setAttribute('aria-hidden', 'true');
-  document.body.classList.remove('modal-open');
+  refreshBodyScrollLock();
 }
 
 function initUptdPopup() {
@@ -756,6 +980,7 @@ function initUptdPopup() {
 
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
+    closeNewsDetailModal();
     closeUptdModal();
     closePpidLinkModal();
     closeGalleryModal();
@@ -924,6 +1149,20 @@ function searchBeritaCards(query) {
 async function searchBeritaData(query) {
   const fallbackItems = FALLBACK_DATA.berita || [];
 
+  if (window.BPADPublicData?.enabled) {
+    try {
+      const dbItems = await window.BPADPublicData.getBerita();
+      if (dbItems?.some((item) => {
+        const searchable = `${item.judul || ''} ${item.ringkasan || ''} ${item.kategori || ''}`.toLowerCase();
+        return searchable.includes(query);
+      })) {
+        return true;
+      }
+    } catch (error) {
+      console.warn(error);
+    }
+  }
+
   try {
     const jsonItems = await loadJson(DATA_FILES.berita);
     return [...jsonItems, ...fallbackItems].some((item) => {
@@ -974,7 +1213,7 @@ async function handleNavSearch(event) {
     { id: 'galeri', url: 'galeri.html', keywords: ['galeri', 'foto', 'gambar', 'instagram', 'dokumentasi', 'kegiatan'] },
     { id: 'ppid', url: 'ppid.html', keywords: ['ppid', 'informasi', 'permohonan'] },
     { id: 'berita', url: 'berita.html', keywords: ['berita', 'kabar', 'news'] },
-    { id: 'pengumuman', url: 'index.html#pengumuman', keywords: ['pengumuman', 'info', 'agenda'] },
+    { id: 'pengumuman', url: 'pengumuman.html', keywords: ['pengumuman', 'info', 'agenda'] },
     { id: 'kontak', url: 'index.html#kontak', keywords: ['kontak', 'alamat', 'lokasi', 'hubungi'] }
   ];
 

@@ -15,6 +15,7 @@
 
   const NEWS_WIDGET_STATE = {
     items: [],
+    modalItems: {},
     activeSlide: 0,
     timer: null,
     touchStartX: 0,
@@ -194,6 +195,10 @@
     }
   ];
 
+  const VIDEO_FALLBACK_ITEMS = NEWS_DUMMY_DATA
+    .filter((item) => item.isVideo)
+    .slice(0, 4);
+
   function escapeHtml(value) {
     return String(value ?? '')
       .replace(/&/g, '&amp;')
@@ -255,6 +260,17 @@
     return '';
   }
 
+  function isVideoNewsItem(item) {
+    if (!item || typeof item !== 'object') return false;
+
+    if (item.isVideo) return true;
+    if (item.youtubeId) return true;
+    if (item.videoUrl) return true;
+
+    const category = String(item.category || '').toLowerCase();
+    return category.includes('video') || category.includes('youtube');
+  }
+
   function getVideoThumbnail(item) {
     if (item.youtubeId) {
       return `https://img.youtube.com/vi/${encodeURIComponent(item.youtubeId)}/hqdefault.jpg`;
@@ -263,6 +279,15 @@
   }
 
   async function loadNewsData() {
+    if (window.BPADPublicData?.enabled) {
+      try {
+        const dbItems = await window.BPADPublicData.getNewsWidgetItems();
+        if (dbItems?.length) return dbItems;
+      } catch (error) {
+        console.warn(error);
+      }
+    }
+
     if (!NEWS_WIDGET_CONFIG.apiEndpoint) {
       return NEWS_DUMMY_DATA;
     }
@@ -286,9 +311,19 @@
     NEWS_WIDGET_STATE.activeSlide = 0;
 
     const headlines = items.filter((item) => item.isHeadline).slice(0, 3);
-    const latest = items.filter((item) => !item.isHeadline && !item.isVideo).slice(0, 6);
-    const videos = items.filter((item) => item.isVideo).slice(0, 4);
+    const latest = items.filter((item) => !item.isHeadline && !isVideoNewsItem(item)).slice(0, 6);
+    const videosFromItems = items.filter((item) => isVideoNewsItem(item)).slice(0, 4);
+    const videos = videosFromItems.length ? videosFromItems : VIDEO_FALLBACK_ITEMS;
     const breaking = items.filter((item) => item.isBreaking).slice(0, 4);
+
+    const modalItems = {};
+    headlines.forEach((item, index) => {
+      modalItems[`headline-${index}`] = item;
+    });
+    latest.forEach((item, index) => {
+      modalItems[`latest-${index}`] = item;
+    });
+    NEWS_WIDGET_STATE.modalItems = modalItems;
 
     root.innerHTML = `
       <div class="nw-topbar">
@@ -316,7 +351,7 @@
             <a href="#berita">Lihat Semua <i class="ti ti-arrow-right"></i></a>
           </div>
           <div class="nw-latest-grid">
-            ${latest.map(renderNewsCard).join('')}
+            ${latest.map((item, index) => renderNewsCard(item, `latest-${index}`)).join('')}
           </div>
         </main>
 
@@ -326,6 +361,7 @@
       </div>
     `;
 
+    bindNewsDetailPopup(root);
     setupSlider(headlines.length);
   }
 
@@ -333,7 +369,11 @@
     return `
       <div class="nw-slider" id="nwSlider">
         ${items.map((item, index) => `
-          <a class="nw-slide ${index === 0 ? 'active' : ''}" data-slide="${index}" href="${escapeHtml(getSafeUrl(item.url) || '#')}" target="_blank" rel="noopener">
+          <div
+            class="nw-slide nw-news-clickable ${index === 0 ? 'active' : ''}"
+            data-slide="${index}"
+            data-news-key="headline-${index}"
+          >
             <img src="${escapeHtml(getNewsImage(item))}" alt="${escapeHtml(item.title)}" loading="${index === 0 ? 'eager' : 'lazy'}">
             <div class="nw-slide-content">
               <div class="nw-meta">
@@ -343,7 +383,7 @@
               <h3>${escapeHtml(item.title)}</h3>
               <p>${escapeHtml(item.summary)}</p>
             </div>
-          </a>
+          </div>
         `).join('')}
         <div class="nw-dots">
           ${items.map((_, index) => `<button class="nw-dot ${index === 0 ? 'active' : ''}" type="button" data-dot="${index}" aria-label="Berita utama ${index + 1}"></button>`).join('')}
@@ -356,9 +396,9 @@
     `;
   }
 
-  function renderNewsCard(item) {
+  function renderNewsCard(item, key) {
     return `
-      <a class="nw-card" href="${escapeHtml(getSafeUrl(item.url) || '#')}" target="_blank" rel="noopener">
+      <div class="nw-card nw-news-clickable" data-news-key="${escapeHtml(key || '')}">
         <div class="nw-card-media">
           <img src="${escapeHtml(getNewsImage(item))}" alt="${escapeHtml(item.title)}" loading="lazy">
         </div>
@@ -370,11 +410,36 @@
           <h4>${escapeHtml(item.title)}</h4>
           <p>${escapeHtml(item.summary)}</p>
         </div>
-      </a>
+      </div>
     `;
   }
 
+  function bindNewsDetailPopup(root) {
+    if (!root || root.dataset.newsPopupBound === '1') return;
+
+    root.addEventListener('click', (event) => {
+      const card = event.target.closest('.nw-news-clickable');
+      if (!card || !root.contains(card)) return;
+
+      const key = String(card.dataset.newsKey || '').trim();
+      if (!key) return;
+
+      const modal = window.BPADNewsModal;
+      if (!modal || typeof modal.open !== 'function') return;
+
+      const item = NEWS_WIDGET_STATE.modalItems[key];
+      if (!item) return;
+
+      modal.open(item);
+    });
+
+    root.dataset.newsPopupBound = '1';
+  }
+
   function renderVideoNews(items) {
+    const safeItems = Array.isArray(items) ? items : [];
+    const hasVideos = safeItems.length > 0;
+
     return `
       <section class="nw-side-card">
         <div class="nw-side-head">
@@ -382,8 +447,8 @@
           <span>Mini</span>
         </div>
         <div class="nw-video-list">
-          ${items.map((item) => `
-            <a class="nw-video-item" href="${escapeHtml(item.videoUrl || '#')}" target="_blank" rel="noopener">
+          ${hasVideos ? safeItems.map((item) => `
+            <a class="nw-video-item" href="${escapeHtml(getSafeUrl(item.videoUrl || item.url) || '#')}" target="_blank" rel="noopener">
               <div class="nw-video-thumb">
                 <img src="${getVideoThumbnail(item)}" alt="${escapeHtml(item.title)}" loading="lazy">
                 <div class="nw-play"><span><i class="ti ti-player-play-filled"></i></span></div>
@@ -393,7 +458,9 @@
                 <div class="nw-video-time">${escapeHtml(item.videoDuration || '01:00')} · ${formatNewsDate(item.date)}</div>
               </div>
             </a>
-          `).join('')}
+          `).join('') : `
+            <div class="nw-video-empty">Belum ada video terbaru saat ini.</div>
+          `}
         </div>
       </section>
     `;

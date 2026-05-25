@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Admin BPAD NTT</title>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <link rel="stylesheet" href="css/admin.css?v=7">
+</head>
+<body class="auth-mode">
+  <main class="admin-shell">
+    <section class="admin-card config-alert" id="configAlert" hidden>
+      <i class="ti ti-alert-triangle"></i>
+      <div>
+        <h2>Konfigurasi Supabase belum aktif</h2>
+        <p>Salin <code>js/supabase-config.example.js</code> menjadi <code>js/supabase-config.js</code>, lalu isi Project URL dan anon public key.</p>
+      </div>
+    </section>
+
+    <section class="admin-card login-card" id="loginPanel">
+      <div class="login-logo">
+        <img src="assets/logo.png" alt="Logo BPAD NTT">
+      </div>
+      <div class="card-header">
+        <span class="eyebrow">Login Custom</span>
+        <h2>Masuk Admin</h2>
+        <p>Masuk terlebih dahulu untuk mengelola berita, pengumuman, dan agenda website.</p>
+      </div>
+
+      <form class="admin-form" id="loginForm">
+        <label>
+          <span>Username</span>
+          <input type="text" id="loginUsername" autocomplete="username" required>
+        </label>
+        <label>
+          <span>Password</span>
+          <input type="password" id="loginPassword" autocomplete="current-password" required>
+        </label>
+        <button class="primary-btn" type="submit"><i class="ti ti-login-2"></i> Masuk Dashboard</button>
+      </form>
+
+      <a class="admin-back-home" href="index.html"><i class="ti ti-arrow-left"></i> Kembali ke website</a>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  </main>
+
+  <script src="js/supabase-config.js?v=3"></script>
+  <script src="js/admin-core.js?v=7"></script>
+  <script src="js/admin-login.js?v=7"></script>
+</body>
+</html>
