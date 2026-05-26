@@ -597,6 +597,15 @@ function renderPpid(items) {
 // 3. Jika berhasil, data fallback diganti dengan data JSON.
 // 4. Jika gagal, fallback tetap tampil dan error dicatat di console.
 async function hydrateContent() {
+  if (window.BPADPublicData?.enabled) {
+    try {
+      const settingsMap = await window.BPADPublicData.getSettingsMap();
+      applyPublicSettings(settingsMap);
+    } catch (error) {
+      console.warn(error);
+    }
+  }
+
   renderBerita(FALLBACK_DATA.berita);
   renderPengumuman(FALLBACK_DATA.pengumuman);
   renderAgenda(FALLBACK_DATA.agenda);
@@ -667,6 +676,68 @@ async function hydrateContent() {
   } catch (error) {
     console.warn(error);
   }
+}
+
+function applySettingText(selector, value) {
+  if (!value) return;
+  document.querySelectorAll(selector).forEach((element) => {
+    element.textContent = value;
+  });
+}
+
+function applySettingHrefByLabel(labelText, href) {
+  if (!labelText || !href) return;
+  document.querySelectorAll('a').forEach((anchor) => {
+    if (anchor.textContent.trim() === labelText) {
+      anchor.setAttribute('href', href);
+    }
+  });
+}
+
+function applyPublicSettings(settings) {
+  if (!settings || typeof settings !== 'object') return;
+
+  if (settings['site.title']) document.title = settings['site.title'];
+  applySettingText('.logo-txt h1', settings['site.short_name'] || settings['site.name']);
+  applySettingText('.logo-txt p', settings['site.tagline']);
+  applySettingText('.footer-brand h4', settings['site.short_name'] || settings['site.name']);
+
+  if (settings['office.address_short']) {
+    document.querySelectorAll('.topbar-left span').forEach((element) => {
+      if (!element.querySelector('.ti-map-pin')) return;
+      const icon = element.querySelector('.ti-map-pin');
+      element.textContent = settings['office.address_short'];
+      element.prepend(icon);
+      element.insertBefore(document.createTextNode(' '), icon.nextSibling);
+    });
+  }
+
+  if (settings['office.address']) {
+    document.querySelectorAll('.info-block p, .footer-col p').forEach((element) => {
+      if (element.textContent.includes('Jl. El Tari')) {
+        element.textContent = settings['office.address'];
+      }
+    });
+  }
+
+  if (settings['office.maps_embed_url']) {
+    document.querySelectorAll('iframe[title="Peta Lokasi BPAD NTT"]').forEach((iframe) => {
+      iframe.setAttribute('src', settings['office.maps_embed_url']);
+    });
+  }
+
+  if (settings['office.maps_link']) {
+    document.querySelectorAll('a.map-link').forEach((anchor) => {
+      anchor.setAttribute('href', settings['office.maps_link']);
+    });
+  }
+
+  applySettingHrefByLabel('Magang Hub', settings['app.magang_hub.url']);
+  applySettingHrefByLabel('Pro NTT', settings['app.pro_ntt.url']);
+  applySettingHrefByLabel('Kastau Tim Siber', settings['app.kastau_tim_siber.url']);
+  applySettingHrefByLabel('Kotak Saran (SKM)', settings['form.kotak_saran_skm.url']);
+  applySettingHrefByLabel('Buku Tamu', settings['form.buku_tamu.url']);
+  applySettingHrefByLabel('Instagram BPAD NTT', settings['social.instagram_url']);
 }
 
 // =========================================================

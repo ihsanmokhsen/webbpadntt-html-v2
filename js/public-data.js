@@ -32,6 +32,16 @@
     return `${publicData.url}/rest/v1/web_posts?${params.toString()}`;
   }
 
+  function buildSettingsUrl() {
+    const params = new URLSearchParams({
+      select: 'key,value,group_name,is_public,updated_at',
+      is_public: 'eq.true',
+      order: 'key.asc'
+    });
+
+    return `${publicData.url}/rest/v1/web_settings?${params.toString()}`;
+  }
+
   function toDateOnly(value) {
     if (!value) return '';
     return String(value).slice(0, 10);
@@ -108,6 +118,38 @@
     }
   }
 
+  async function fetchSettings() {
+    if (!publicData.enabled) return null;
+
+    try {
+      const response = await fetch(buildSettingsUrl(), {
+        headers: getHeaders(),
+        cache: 'no-store'
+      });
+
+      if (!response.ok) throw new Error('Gagal memuat web settings');
+
+      const data = await response.json();
+      return Array.isArray(data) ? data : [];
+    } catch (error) {
+      console.warn(error);
+      return null;
+    }
+  }
+
+  async function getSettingsMap() {
+    const rows = await fetchSettings();
+    if (!rows || !rows.length) return null;
+
+    const map = {};
+    rows.forEach((row) => {
+      const key = String(row?.key || '').trim();
+      if (!key) return;
+      map[key] = row?.value == null ? '' : String(row.value);
+    });
+    return map;
+  }
+
   async function getBerita(limit = 12) {
     const posts = await fetchPosts('berita', limit);
     if (!posts || !posts.length) return null;
@@ -135,6 +177,8 @@
   window.BPADPublicData = {
     enabled: publicData.enabled,
     fetchPosts,
+    fetchSettings,
+    getSettingsMap,
     getBerita,
     getPengumuman,
     getAgenda,
