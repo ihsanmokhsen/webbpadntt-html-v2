@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
-  <link rel="stylesheet" href="css/style.css?v=20260525-pengumuman1">
+  <link rel="stylesheet" href="css/style.css?v=20260527-ppid5">
 </head>
 <body>
 
@@ -114,22 +114,267 @@
   </div>
 </section>
 
-<!--
-  PPID
-  Konten kartu PPID TIDAK ditulis langsung di sini.
-  Elemen #ppidGrid akan diisi otomatis dari data/ppid.json
-  oleh file js/main.js.
--->
-<section class="section-alt ppid-dark" id="ppid">
-  <div class="section-hdr">
-    <div class="section-hdr-left">
-      <div class="section-eyebrow"><i class="ti ti-file-search"></i> PPID</div>
-      <div class="section-title">Pejabat Pengelola Informasi dan Dokumentasi</div>
+<main class="ppid-page" id="ppid">
+  <section class="ppid-hero" aria-labelledby="ppidHeroTitle">
+    <div class="ppid-hero-bg" aria-hidden="true"></div>
+    <div class="ppid-hero-inner">
+      <div class="ppid-hero-copy">
+        <div class="ppid-kicker"><i class="ti ti-file-search"></i> PPID BPAD NTT</div>
+        <h1 id="ppidHeroTitle">Pejabat Pengelola Informasi dan Dokumentasi</h1>
+        <p>Layanan keterbukaan informasi publik BPAD Provinsi Nusa Tenggara Timur</p>
+        <div class="ppid-hero-actions">
+          <a href="#ppid-permohonan" class="ppid-primary-btn"><i class="ti ti-send"></i> Permohonan Informasi</a>
+          <a href="#ppid-keberatan" class="ppid-secondary-btn"><i class="ti ti-alert-circle"></i> Pengajuan Keberatan</a>
+        </div>
+      </div>
+      <div class="ppid-hero-panel" aria-label="Ringkasan layanan PPID">
+        <span class="ppid-panel-label">Status Layanan</span>
+        <strong>Preview Portal PPID</strong>
+        <p>Form PPID diarahkan ke Google Form, sementara metadata dokumen dapat diarahkan ke Supabase dan file dokumen ke Google Drive.</p>
+        <div class="ppid-panel-meta">
+          <span><i class="ti ti-clock"></i> 10 hari kerja</span>
+          <span><i class="ti ti-shield-check"></i> Terverifikasi PPID</span>
+        </div>
+      </div>
     </div>
-    <a href="https://forms.gle/sLJVuwdGrZnQTJ3N7" target="_blank" rel="noopener" class="see-all">Ajukan Permohonan <i class="ti ti-arrow-right"></i></a>
-  </div>
-  <div class="ppid-grid" id="ppidGrid"></div>
-</section>
+  </section>
+
+  <nav class="ppid-subnav" aria-label="Sub menu PPID">
+    <a href="#ppid-profil">Profil PPID</a>
+    <a href="#ppid-dokumen" data-ppid-nav-category="Berkala">Informasi Berkala</a>
+    <a href="#ppid-dokumen" data-ppid-nav-category="Setiap Saat">Informasi Setiap Saat</a>
+    <a href="#ppid-dokumen" data-ppid-nav-category="Serta Merta">Informasi Serta Merta</a>
+    <a href="#ppid-dokumen" data-ppid-nav-category="Dikecualikan">Informasi Dikecualikan</a>
+    <a href="#ppid-dokumen" data-ppid-nav-category="DIP">Daftar Informasi Publik (DIP)</a>
+    <a href="#ppid-dokumen" data-ppid-nav-category="SOP">SOP Pelayanan</a>
+    <a href="#ppid-permohonan">Permohonan Informasi</a>
+    <a href="#ppid-keberatan">Pengajuan Keberatan</a>
+    <a href="#ppid-laporan">Laporan Layanan Informasi</a>
+  </nav>
+
+  <section class="ppid-section ppid-stats" aria-label="Dashboard statistik PPID">
+    <div class="ppid-stat-card">
+      <span>Jumlah Dokumen</span>
+      <strong>24</strong>
+      <small>Dummy preview</small>
+    </div>
+    <div class="ppid-stat-card">
+      <span>Permohonan Informasi</span>
+      <strong>18</strong>
+      <small>Januari - Mei 2026</small>
+    </div>
+    <div class="ppid-stat-card">
+      <span>Permohonan Diproses</span>
+      <strong>5</strong>
+      <small>Dalam verifikasi</small>
+    </div>
+    <div class="ppid-stat-card">
+      <span>Informasi Dikecualikan</span>
+      <strong>3</strong>
+      <small>Berbasis uji konsekuensi</small>
+    </div>
+  </section>
+
+  <section class="ppid-section" aria-labelledby="ppidKategoriTitle">
+    <div class="ppid-section-head">
+      <span class="ppid-kicker"><i class="ti ti-layout-grid"></i> Informasi Publik</span>
+      <h2 id="ppidKategoriTitle">Kategori layanan dan dokumen PPID</h2>
+      <p>Pilih kategori untuk melihat daftar dokumen. Metadata dapat dikelola di Supabase, sedangkan file asli bisa diarahkan ke Google Drive.</p>
+    </div>
+    <div class="ppid-category-grid">
+      <button class="ppid-category-card" type="button" data-ppid-category="Berkala">
+        <i class="ti ti-calendar-stats"></i>
+        <strong>Informasi Berkala</strong>
+        <span>Laporan, ringkasan program, dan publikasi rutin.</span>
+      </button>
+      <button class="ppid-category-card" type="button" data-ppid-category="Setiap Saat">
+        <i class="ti ti-folder-open"></i>
+        <strong>Informasi Setiap Saat</strong>
+        <span>Dokumen yang tersedia saat dibutuhkan masyarakat.</span>
+      </button>
+      <button class="ppid-category-card" type="button" data-ppid-category="Serta Merta">
+        <i class="ti ti-speakerphone"></i>
+        <strong>Informasi Serta Merta</strong>
+        <span>Informasi penting yang perlu diketahui publik segera.</span>
+      </button>
+      <button class="ppid-category-card" type="button" data-ppid-category="Dikecualikan">
+        <i class="ti ti-lock-square"></i>
+        <strong>Informasi Dikecualikan</strong>
+        <span>Informasi terbatas berdasarkan ketentuan peraturan.</span>
+      </button>
+      <button class="ppid-category-card" type="button" data-ppid-category="DIP">
+        <i class="ti ti-list-details"></i>
+        <strong>DIP</strong>
+        <span>Daftar Informasi Publik BPAD NTT.</span>
+      </button>
+      <button class="ppid-category-card" type="button" data-ppid-category="SOP">
+        <i class="ti ti-clipboard-list"></i>
+        <strong>SOP Pelayanan</strong>
+        <span>Standar prosedur pelayanan informasi publik.</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="ppid-section ppid-docs" id="ppid-dokumen" aria-labelledby="ppidDokumenTitle">
+    <div class="ppid-section-head">
+      <span class="ppid-kicker"><i class="ti ti-database-search"></i> Sistem Dokumen Modern</span>
+      <h2 id="ppidDokumenTitle">Daftar dokumen PPID</h2>
+      <p>Tabel ini siap membaca metadata dari Supabase dan memakai Google Drive sebagai lokasi file dokumen.</p>
+    </div>
+
+    <div class="ppid-doc-toolbar">
+      <label class="ppid-search-box">
+        <i class="ti ti-search"></i>
+        <input id="ppidDocSearch" type="search" placeholder="Cari dokumen..." autocomplete="off">
+      </label>
+      <label>
+        <span>Tahun</span>
+        <select id="ppidYearFilter">
+          <option value="">Semua Tahun</option>
+          <option value="2026">2026</option>
+          <option value="2025">2025</option>
+        </select>
+      </label>
+      <label>
+        <span>Kategori</span>
+        <select id="ppidCategoryFilter">
+          <option value="">Semua Kategori</option>
+          <option value="Berkala">Informasi Berkala</option>
+          <option value="Setiap Saat">Informasi Setiap Saat</option>
+          <option value="Serta Merta">Informasi Serta Merta</option>
+          <option value="Dikecualikan">Informasi Dikecualikan</option>
+          <option value="DIP">DIP</option>
+          <option value="SOP">SOP</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="ppid-doc-layout">
+      <div class="ppid-table-wrap">
+        <table class="ppid-doc-table">
+          <thead>
+            <tr>
+              <th>Dokumen</th>
+              <th>Kategori</th>
+              <th>Tahun</th>
+              <th>Format</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="ppidDocumentRows"></tbody>
+        </table>
+      </div>
+      <aside class="ppid-preview-panel" id="ppidPreviewPanel" aria-live="polite">
+        <span class="ppid-panel-label">Preview Dokumen</span>
+        <h3>Pilih tombol preview</h3>
+        <p>Detail dokumen dummy akan tampil di sini sebelum nantinya diarahkan ke file asli.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="ppid-section ppid-forms" aria-label="Form layanan PPID">
+    <article class="ppid-form-card ppid-form-link-card" id="ppid-permohonan">
+      <div class="ppid-section-head compact">
+        <span class="ppid-kicker"><i class="ti ti-mail-forward"></i> Form Online</span>
+        <h2>Permohonan Informasi</h2>
+      </div>
+      <p class="ppid-form-intro">Pengisian data pemohon dilakukan melalui Google Form agar respons langsung masuk ke Google Sheets operator PPID.</p>
+      <ul class="ppid-form-field-list" aria-label="Field permohonan informasi">
+        <li>Nama</li>
+        <li>Email</li>
+        <li>Nomor HP</li>
+        <li>Alamat</li>
+        <li>Informasi yang diminta</li>
+        <li>Tujuan penggunaan informasi</li>
+      </ul>
+      <a class="ppid-primary-btn ppid-form-link" href="https://forms.gle/sLJVuwdGrZnQTJ3N7" target="_blank" rel="noopener" data-setting-href="form.ppid_request.url" data-ppid-form-link>
+        <i class="ti ti-brand-google-drive"></i> Buka Google Form
+      </a>
+      <p class="ppid-form-note">Link dapat diganti dari web settings key <strong>form.ppid_request.url</strong>.</p>
+    </article>
+
+    <article class="ppid-form-card ppid-form-link-card" id="ppid-keberatan">
+      <div class="ppid-section-head compact">
+        <span class="ppid-kicker"><i class="ti ti-alert-triangle"></i> Form Keberatan</span>
+        <h2>Pengajuan Keberatan</h2>
+      </div>
+      <p class="ppid-form-intro">Pengajuan keberatan juga diarahkan ke Google Form terpisah agar rekapnya mudah dipantau oleh petugas.</p>
+      <ul class="ppid-form-field-list" aria-label="Field pengajuan keberatan">
+        <li>Nomor permohonan</li>
+        <li>Alasan keberatan</li>
+        <li>Kronologi</li>
+      </ul>
+      <a class="ppid-secondary-btn solid ppid-form-link" href="#form-keberatan-belum-diisi" target="_blank" rel="noopener" data-setting-href="form.ppid_objection.url" data-ppid-form-link>
+        <i class="ti ti-file-alert"></i> Buka Google Form Keberatan
+      </a>
+      <p class="ppid-form-note">Isi web settings key <strong>form.ppid_objection.url</strong> setelah Google Form keberatan dibuat.</p>
+    </article>
+  </section>
+
+  <section class="ppid-section ppid-timeline" aria-labelledby="ppidTimelineTitle">
+    <div class="ppid-section-head">
+      <span class="ppid-kicker"><i class="ti ti-route"></i> Alur Pelayanan</span>
+      <h2 id="ppidTimelineTitle">Timeline layanan informasi</h2>
+    </div>
+    <ol class="ppid-timeline-list">
+      <li><span>1</span><strong>Permohonan Masuk</strong><p>Pemohon mengisi form dan melengkapi identitas.</p></li>
+      <li><span>2</span><strong>Verifikasi</strong><p>Petugas memeriksa kelengkapan data dan kategori informasi.</p></li>
+      <li><span>3</span><strong>Proses PPID</strong><p>PPID menyiapkan dokumen atau jawaban resmi.</p></li>
+      <li><span>4</span><strong>Informasi Dikirim</strong><p>Informasi diberikan melalui kanal yang dipilih pemohon.</p></li>
+    </ol>
+  </section>
+
+  <section class="ppid-section ppid-profile" id="ppid-profil" aria-labelledby="ppidProfilTitle">
+    <div class="ppid-section-head">
+      <span class="ppid-kicker"><i class="ti ti-building-bank"></i> Profil PPID</span>
+      <h2 id="ppidProfilTitle">Struktur, visi misi, tugas fungsi, dan SK PPID</h2>
+    </div>
+    <div class="ppid-profile-grid">
+      <article class="ppid-info-card">
+        <h3>Struktur Organisasi</h3>
+        <p>Atasan PPID, PPID Pelaksana, bidang pelayanan informasi, bidang dokumentasi, dan bidang penyelesaian sengketa informasi.</p>
+      </article>
+      <article class="ppid-info-card">
+        <h3>Visi Misi</h3>
+        <p>Mendukung keterbukaan informasi publik yang akurat, mudah diakses, dan responsif bagi masyarakat NTT.</p>
+      </article>
+      <article class="ppid-info-card">
+        <h3>Tugas Fungsi</h3>
+        <p>Mengelola, mendokumentasikan, menyediakan, dan melayani permintaan informasi publik di lingkungan BPAD NTT.</p>
+      </article>
+      <article class="ppid-info-card">
+        <h3>SK PPID</h3>
+        <p>Dokumen keputusan PPID disiapkan sebagai rujukan organisasi dan tanggung jawab pelayanan informasi publik.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="ppid-section" aria-labelledby="ppidHukumTitle">
+    <div class="ppid-section-head">
+      <span class="ppid-kicker"><i class="ti ti-scale"></i> Dasar Hukum</span>
+      <h2 id="ppidHukumTitle">Regulasi keterbukaan informasi publik</h2>
+    </div>
+    <div class="ppid-legal-grid">
+      <article><i class="ti ti-gavel"></i><strong>UU KIP</strong><span>Undang-Undang Keterbukaan Informasi Publik</span></article>
+      <article><i class="ti ti-file-certificate"></i><strong>PERKI No.1 Tahun 2021</strong><span>Standar layanan informasi publik</span></article>
+      <article><i class="ti ti-building-community"></i><strong>Pergub</strong><span>Regulasi daerah terkait layanan informasi</span></article>
+      <article><i class="ti ti-license"></i><strong>SK PPID</strong><span>Penetapan pejabat dan struktur PPID</span></article>
+    </div>
+  </section>
+
+  <section class="ppid-section ppid-integration" id="ppid-laporan" aria-labelledby="ppidIntegrasiTitle">
+    <div>
+      <span class="ppid-kicker"><i class="ti ti-plug-connected"></i> Integrasi Dokumen</span>
+      <h2 id="ppidIntegrasiTitle">Siap untuk Supabase, Google Drive, dan Google Forms</h2>
+      <p>Supabase dapat menyimpan metadata dokumen, Google Drive dipakai sebagai lokasi file dokumen, dan Google Forms dipakai untuk permohonan serta keberatan.</p>
+    </div>
+    <div class="ppid-source-grid">
+      <span><i class="ti ti-database"></i> Supabase: metadata dokumen opsional</span>
+      <span><i class="ti ti-brand-google-drive"></i> Google Drive: file dokumen</span>
+      <span><i class="ti ti-forms"></i> Google Forms: permohonan dan keberatan</span>
+    </div>
+  </section>
+</main>
 
 <!--
   INFO / KONTAK
@@ -236,8 +481,8 @@
   dan membaca data JSON untuk konten halaman.
 -->
 <script src="js/supabase-config.js?v=3"></script>
-<script src="js/public-data.js?v=20260526-settings1"></script>
-<script src="js/main.js?v=20260526-settings1"></script>
+  <script src="js/public-data.js?v=20260527-ppid5"></script>
+  <script src="js/main.js?v=20260527-ppid5"></script>
 
 </body>
 </html>

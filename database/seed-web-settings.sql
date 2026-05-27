@@ -52,6 +52,8 @@ values
   ('form.buku_tamu.url', 'https://forms.gle/Us5L3Peh8N1L99iq7', 'forms', true, now()),
   ('form.ppid_request.name', 'Permohonan Informasi', 'forms', true, now()),
   ('form.ppid_request.url', 'https://forms.gle/sLJVuwdGrZnQTJ3N7', 'forms', true, now()),
+  ('form.ppid_objection.name', 'Pengajuan Keberatan', 'forms', true, now()),
+  ('form.ppid_objection.url', '#form-keberatan-belum-diisi', 'forms', true, now()),
 
   ('ppid.informasi_berkala.name', 'Informasi Berkala', 'ppid', true, now()),
   ('ppid.informasi_berkala.drive_url', 'https://drive.google.com/drive/folders/1aLEX6QKuaZ_wDzXQDknX5IgSgD1kMX37?usp=drive_link', 'ppid', true, now()),
@@ -109,6 +111,8 @@ where key in (
   'form.buku_tamu.url',
   'form.ppid_request.name',
   'form.ppid_request.url',
+  'form.ppid_objection.name',
+  'form.ppid_objection.url',
   'ppid.informasi_berkala.name',
   'ppid.informasi_berkala.drive_url',
   'ppid.informasi_setiap_saat.name',

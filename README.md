@@ -20,6 +20,9 @@ Website profil dan portal informasi BPAD NTT dengan dashboard admin berbasis Sup
 - Admin dashboard: `admin-dashboard.html`
 - Kelola konten `web_posts` dari dashboard admin
 - Kelola `web_settings` dari dashboard admin (dan sekarang langsung terbaca di halaman publik)
+- Form PPID publik diarahkan ke Google Forms
+- Metadata dokumen PPID dapat disiapkan di Supabase, file asli dapat ditautkan ke Google Drive
+- Alur PPID tidak memakai Apps Script API
 
 ## Struktur Penting
 
@@ -41,6 +44,7 @@ database/
   web-admin-settings-functions.sql
   seed-web-posts.sql
   seed-web-settings.sql
+  web-ppid-forms.sql (opsional untuk metadata dokumen/form PPID di Supabase)
 data/
 assets/
 ```
@@ -79,6 +83,8 @@ Jalankan SQL di Supabase SQL Editor dengan urutan:
 5. database/seed-web-posts.sql
 6. database/seed-web-settings.sql
 ```
+
+`database/web-ppid-forms.sql` sekarang opsional. Jalankan hanya jika nanti ingin metadata dokumen PPID atau form PPID disimpan langsung di Supabase.
 
 Jika sudah ada tabel lama aplikasi absen tanpa prefix, jalankan `database/rename-absen-tables.sql` dulu.
 

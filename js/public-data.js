@@ -42,6 +42,16 @@
     return `${publicData.url}/rest/v1/web_settings?${params.toString()}`;
   }
 
+  function buildPpidDocumentsUrl() {
+    const params = new URLSearchParams({
+      select: 'id,title,category,document_year,file_format,file_size,description,drive_url,preview_url,source,published_at,updated_at',
+      is_public: 'eq.true',
+      order: 'document_year.desc,published_at.desc.nullslast,title.asc'
+    });
+
+    return `${publicData.url}/rest/v1/web_ppid_documents?${params.toString()}`;
+  }
+
   function toDateOnly(value) {
     if (!value) return '';
     return String(value).slice(0, 10);
@@ -150,6 +160,48 @@
     return map;
   }
 
+  async function fetchPpidDocuments() {
+    if (!publicData.enabled) return null;
+
+    try {
+      const response = await fetch(buildPpidDocumentsUrl(), {
+        headers: getHeaders(),
+        cache: 'no-store'
+      });
+
+      if (!response.ok) throw new Error('Gagal memuat dokumen PPID');
+
+      const data = await response.json();
+      return Array.isArray(data) ? data : [];
+    } catch (error) {
+      console.warn(error);
+      return null;
+    }
+  }
+
+  function ppidDocumentToItem(doc) {
+    const url = doc.drive_url || doc.preview_url || '#dokumen-belum-tersedia';
+
+    return {
+      id: String(doc.id),
+      title: doc.title,
+      category: doc.category,
+      year: String(doc.document_year || ''),
+      format: doc.file_format || 'PDF',
+      size: doc.file_size || '-',
+      updatedAt: toDateOnly(doc.published_at || doc.updated_at),
+      description: doc.description || '',
+      source: doc.source === 'google_drive' ? 'Google Drive' : 'Supabase',
+      url
+    };
+  }
+
+  async function getPpidDocuments() {
+    const documents = await fetchPpidDocuments();
+    if (!documents || !documents.length) return null;
+    return documents.map(ppidDocumentToItem);
+  }
+
   async function getBerita(limit = 12) {
     const posts = await fetchPosts('berita', limit);
     if (!posts || !posts.length) return null;
@@ -178,7 +230,9 @@
     enabled: publicData.enabled,
     fetchPosts,
     fetchSettings,
+    fetchPpidDocuments,
     getSettingsMap,
+    getPpidDocuments,
     getBerita,
     getPengumuman,
     getAgenda,

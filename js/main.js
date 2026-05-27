@@ -1,8 +1,8 @@
 // =========================================================
 // 1. Lokasi file JSON
 // =========================================================
-// Website ini tidak memakai database. Data yang mudah berubah
-// disimpan di folder `data/`, lalu dibaca oleh JavaScript.
+// Website memakai data publik dari Supabase jika tersedia.
+// File JSON tetap dipakai sebagai fallback agar halaman tidak kosong.
 const DATA_FILES = {
   berita: 'data/berita.json',
   pengumuman: 'data/pengumuman.json',
@@ -70,8 +70,8 @@ const FALLBACK_DATA = {
     {
       judul: 'Permohonan Informasi',
       jenis: 'Layanan PPID',
-      deskripsi: 'Layanan permintaan informasi publik melalui kontak resmi atau datang langsung ke kantor BPAD Provinsi NTT.',
-      link: 'https://forms.gle/sLJVuwdGrZnQTJ3N7'
+      deskripsi: 'Layanan permintaan informasi publik melalui form PPID di website BPAD Provinsi NTT.',
+      link: 'ppid.html#ppid-permohonan'
     }
   ]
 };
@@ -282,6 +282,57 @@ const UPTD_OFFICIALS = {
   }
 };
 
+const PPID_DUMMY_DOCUMENTS = [
+  {
+    id: 'lra-2025',
+    title: 'Laporan Realisasi Anggaran 2025',
+    category: 'Berkala',
+    year: '2025',
+    format: 'PDF',
+    size: '2.4 MB',
+    updatedAt: '2026-01-18',
+    description: 'Ringkasan realisasi anggaran BPAD NTT untuk kebutuhan informasi berkala.',
+    source: 'Supabase',
+    url: '#preview-laporan-realisasi-anggaran-2025'
+  },
+  {
+    id: 'dip-2025',
+    title: 'DIP BPAD 2025',
+    category: 'DIP',
+    year: '2025',
+    format: 'PDF',
+    size: '1.1 MB',
+    updatedAt: '2025-12-30',
+    description: 'Daftar Informasi Publik BPAD NTT tahun 2025.',
+    source: 'Google Drive',
+    url: '#preview-dip-bpad-2025'
+  },
+  {
+    id: 'sop-permohonan',
+    title: 'SOP Permohonan Informasi',
+    category: 'SOP',
+    year: '2026',
+    format: 'PDF',
+    size: '860 KB',
+    updatedAt: '2026-02-04',
+    description: 'Standar operasional pelayanan permohonan informasi publik.',
+    source: 'Google Drive',
+    url: '#preview-sop-permohonan-informasi'
+  },
+  {
+    id: 'maklumat-pelayanan',
+    title: 'Maklumat Pelayanan',
+    category: 'Serta Merta',
+    year: '2026',
+    format: 'PDF',
+    size: '540 KB',
+    updatedAt: '2026-03-12',
+    description: 'Maklumat pelayanan informasi publik BPAD NTT untuk masyarakat.',
+    source: 'Supabase',
+    url: '#preview-maklumat-pelayanan'
+  }
+];
+
 // =========================================================
 // 4. Helper format tanggal
 // =========================================================
@@ -296,6 +347,15 @@ function formatTanggal(value) {
     month: 'long',
     year: 'numeric'
   }).format(new Date(`${value}T00:00:00`));
+}
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }
 
 // =========================================================
@@ -588,6 +648,158 @@ function renderPpid(items) {
   `).join('');
 }
 
+function renderPpidDocumentRows(documents) {
+  const container = document.getElementById('ppidDocumentRows');
+  if (!container) return;
+
+  if (!documents.length) {
+    container.innerHTML = `
+      <tr>
+        <td class="ppid-empty-row" colspan="5">Dokumen tidak ditemukan untuk filter ini.</td>
+      </tr>
+    `;
+    return;
+  }
+
+  container.innerHTML = documents.map((doc) => `
+    <tr>
+      <td>
+        <div class="ppid-doc-title">
+          <strong>${escapeHtml(doc.title)}</strong>
+          <span>Update ${formatTanggal(doc.updatedAt)} - ${escapeHtml(doc.size)}</span>
+        </div>
+      </td>
+      <td><span class="ppid-doc-badge">${escapeHtml(doc.category)}</span></td>
+      <td>${escapeHtml(doc.year)}</td>
+      <td>${escapeHtml(doc.format)}</td>
+      <td>
+        <div class="ppid-doc-actions">
+          <button type="button" data-ppid-preview="${escapeHtml(doc.id)}"><i class="ti ti-eye"></i> Preview</button>
+          <a href="${escapeHtml(doc.url)}" data-ppid-download="${escapeHtml(doc.id)}"><i class="ti ti-download"></i> Download</a>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function renderPpidPreview(doc) {
+  const panel = document.getElementById('ppidPreviewPanel');
+  if (!panel || !doc) return;
+
+  panel.innerHTML = `
+    <span class="ppid-panel-label">Preview Dokumen</span>
+    <h3>${escapeHtml(doc.title)}</h3>
+    <p>${escapeHtml(doc.description)}</p>
+    <div class="ppid-preview-meta">
+      <span><strong>Kategori:</strong> ${escapeHtml(doc.category)}</span>
+      <span><strong>Tahun:</strong> ${escapeHtml(doc.year)}</span>
+      <span><strong>Format:</strong> ${escapeHtml(doc.format)} - ${escapeHtml(doc.size)}</span>
+      <span><strong>Sumber:</strong> ${escapeHtml(doc.source)}</span>
+    </div>
+  `;
+}
+
+function initPpidGoogleFormLinks() {
+  document.querySelectorAll('[data-ppid-form-link]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      const href = link.getAttribute('href') || '';
+      if (!href || href === '#' || href.startsWith('#form-')) {
+        event.preventDefault();
+        window.alert('Link Google Form ini belum diisi. Update melalui web settings sesuai key yang tertulis di kartu form.');
+      }
+    });
+  });
+}
+
+async function initPpidPortal() {
+  const rows = document.getElementById('ppidDocumentRows');
+  if (!rows) return;
+
+  let ppidDocuments = PPID_DUMMY_DOCUMENTS;
+
+  const searchInput = document.getElementById('ppidDocSearch');
+  const yearFilter = document.getElementById('ppidYearFilter');
+  const categoryFilter = document.getElementById('ppidCategoryFilter');
+  const categoryButtons = document.querySelectorAll('[data-ppid-category]');
+  const navCategoryLinks = document.querySelectorAll('[data-ppid-nav-category]');
+
+  renderPpidDocumentRows(ppidDocuments);
+  renderPpidPreview(ppidDocuments[0]);
+  initPpidGoogleFormLinks();
+
+  const applyFilters = () => {
+    const query = String(searchInput?.value || '').trim().toLowerCase();
+    const year = String(yearFilter?.value || '');
+    const category = String(categoryFilter?.value || '');
+
+    const filtered = ppidDocuments.filter((doc) => {
+      const searchable = `${doc.title} ${doc.category} ${doc.year} ${doc.description}`.toLowerCase();
+      return (!query || searchable.includes(query))
+        && (!year || doc.year === year)
+        && (!category || doc.category === category);
+    });
+
+    categoryButtons.forEach((button) => {
+      button.classList.toggle('is-active', Boolean(category && button.dataset.ppidCategory === category));
+    });
+    renderPpidDocumentRows(filtered);
+  };
+
+  if (window.BPADPublicData?.enabled) {
+    window.BPADPublicData.getPpidDocuments()
+      .then((supabaseDocuments) => {
+        if (supabaseDocuments?.length) {
+          ppidDocuments = supabaseDocuments;
+          applyFilters();
+          renderPpidPreview(ppidDocuments[0]);
+        }
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
+  }
+
+  searchInput?.addEventListener('input', applyFilters);
+  yearFilter?.addEventListener('change', applyFilters);
+  categoryFilter?.addEventListener('change', applyFilters);
+
+  categoryButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      if (categoryFilter) categoryFilter.value = button.dataset.ppidCategory || '';
+      applyFilters();
+      document.getElementById('ppid-dokumen')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  navCategoryLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      if (categoryFilter) categoryFilter.value = link.dataset.ppidNavCategory || '';
+      window.setTimeout(applyFilters, 0);
+    });
+  });
+
+  rows.addEventListener('click', (event) => {
+    const previewButton = event.target.closest('[data-ppid-preview]');
+    const downloadLink = event.target.closest('[data-ppid-download]');
+
+    if (previewButton) {
+      const doc = ppidDocuments.find((item) => item.id === previewButton.dataset.ppidPreview);
+      renderPpidPreview(doc);
+      return;
+    }
+
+    if (downloadLink) {
+      const doc = ppidDocuments.find((item) => item.id === downloadLink.dataset.ppidDownload);
+      renderPpidPreview(doc);
+      if (!doc?.url || doc.url.startsWith('#')) {
+        event.preventDefault();
+        window.alert('File dokumen belum ditautkan. Nanti isi drive_url atau preview_url di tabel web_ppid_documents.');
+      }
+    }
+  });
+
+}
+
 // =========================================================
 // 11. Jalankan proses pengisian konten
 // =========================================================
@@ -694,12 +906,19 @@ function applySettingHrefByLabel(labelText, href) {
   });
 }
 
+function applySettingHrefByKey(key, href) {
+  if (!key || !href) return;
+  document.querySelectorAll(`[data-setting-href="${key}"]`).forEach((anchor) => {
+    anchor.setAttribute('href', href);
+  });
+}
+
 function applyPublicSettings(settings) {
   if (!settings || typeof settings !== 'object') return;
 
   if (settings['site.title']) document.title = settings['site.title'];
-  applySettingText('.logo-txt h1', settings['site.short_name'] || settings['site.name']);
-  applySettingText('.logo-txt p', settings['site.tagline']);
+  applySettingText('.logo-text h1', settings['site.short_name'] || settings['site.name']);
+  applySettingText('.logo-text p', settings['site.tagline']);
   applySettingText('.footer-brand h4', settings['site.short_name'] || settings['site.name']);
 
   if (settings['office.address_short']) {
@@ -738,13 +957,15 @@ function applyPublicSettings(settings) {
   applySettingHrefByLabel('Kotak Saran (SKM)', settings['form.kotak_saran_skm.url']);
   applySettingHrefByLabel('Buku Tamu', settings['form.buku_tamu.url']);
   applySettingHrefByLabel('Instagram BPAD NTT', settings['social.instagram_url']);
+  applySettingHrefByKey('form.ppid_request.url', settings['form.ppid_request.url']);
+  applySettingHrefByKey('form.ppid_objection.url', settings['form.ppid_objection.url']);
 }
 
 // =========================================================
 // 12. Popup konfirmasi link PPID
 // =========================================================
 // Link PPID diarahkan ke luar website. Popup ini memberi tahu
-// pengguna tujuan link sebelum membuka Google Drive atau Google Form.
+// pengguna tujuan link sebelum membuka dokumen Google Drive.
 function buildPpidLinkModal() {
   const modal = document.createElement('div');
   modal.className = 'ppid-link-modal';
@@ -802,7 +1023,7 @@ function openPpidLinkModal(link) {
   const card = link.closest('.detail-card');
   const itemTitle = card?.querySelector('h3')?.textContent?.trim() || 'Informasi PPID';
   const itemDescription = card?.querySelector('p')?.textContent?.trim() || 'dokumen atau layanan informasi publik BPAD NTT';
-  const isForm = link.textContent.includes('Isi Formulir') || link.href.includes('forms.gle');
+  const isForm = link.textContent.includes('Isi Formulir') || link.hash === '#ppid-permohonan';
   const modal = document.getElementById('ppidLinkModal') || buildPpidLinkModal();
   const title = modal.querySelector('#ppidLinkModalTitle');
   const message = modal.querySelector('#ppidLinkModalMessage');
@@ -1432,4 +1653,5 @@ initHeroSlider();
 updatePadTodayDate();
 hydrateContent();
 initUptdPopup();
+initPpidPortal();
 initScrollAnimations();
