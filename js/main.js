@@ -44,16 +44,8 @@ const FALLBACK_DATA = {
       ringkasan: 'Layanan digital e-Samsat diperbarui untuk mempermudah pembayaran pajak kendaraan.'
     }
   ],
-  pengumuman: [
-    { judul: 'Jadwal Pemeliharaan Sistem e-Samsat — 20 Mei 2026', tanggal: '2026-05-20' },
-    { judul: 'Perubahan Jam Pelayanan UPTD Samsat Kupang Selama Masa Libur Nasional', tanggal: '2026-05-18' },
-    { judul: 'Rekrutmen Tenaga Pendamping Pajak Daerah Kabupaten/Kota Tahun 2026', tanggal: '2026-05-16' },
-    { judul: 'Sosialisasi Peraturan Daerah tentang Pajak Daerah bagi Pelaku Usaha di Kupang', tanggal: '2026-05-14' }
-  ],
-  agenda: [
-    { judul: 'Forum Konsultasi Publik Layanan Pajak Daerah', tanggal: '2026-05-21' },
-    { judul: 'Sosialisasi Pajak Daerah di UPTD Kota Kupang', tanggal: '2026-05-19' }
-  ],
+  pengumuman: [],
+  agenda: [],
   ppid: [
     {
       judul: 'Informasi Berkala',
@@ -358,6 +350,14 @@ function escapeHtml(value) {
     .replace(/'/g, '&#039;');
 }
 
+function sortByTanggalDesc(items) {
+  return [...items].sort((a, b) => {
+    const dateA = a?.tanggal ? new Date(`${a.tanggal}T00:00:00`).getTime() : 0;
+    const dateB = b?.tanggal ? new Date(`${b.tanggal}T00:00:00`).getTime() : 0;
+    return dateB - dateA;
+  });
+}
+
 // =========================================================
 // 5. Helper ambil data JSON
 // =========================================================
@@ -596,8 +596,16 @@ function renderBerita(items) {
 function renderPengumuman(items) {
   const container = document.getElementById('pengumumanList');
   if (!container) return;
+  const list = Array.isArray(items) ? sortByTanggalDesc(items) : [];
 
-  container.innerHTML = items.map((item) => `
+  if (!list.length) {
+    container.innerHTML = `
+      <li class="pgm-empty">Belum ada pengumuman resmi dari database.</li>
+    `;
+    return;
+  }
+
+  container.innerHTML = list.map((item) => `
     <li class="pgm-item">
       <div class="pgm-dot"></div>
       <div class="pgm-content">
@@ -616,8 +624,16 @@ function renderPengumuman(items) {
 function renderAgenda(items) {
   const container = document.getElementById('agendaList');
   if (!container) return;
+  const list = Array.isArray(items) ? sortByTanggalDesc(items) : [];
 
-  container.innerHTML = items.map((item) => `
+  if (!list.length) {
+    container.innerHTML = `
+      <li class="pgm-empty">Belum ada agenda kegiatan dari database.</li>
+    `;
+    return;
+  }
+
+  container.innerHTML = list.map((item) => `
     <li class="pgm-item">
       <div class="pgm-dot"></div>
       <div class="pgm-content">
